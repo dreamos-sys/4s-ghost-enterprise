@@ -4,16 +4,12 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
@@ -32,18 +28,14 @@ api.interceptors.response.use(
 export default api;
 
 export const authApi = {
-  register: (email: string, password: string, name?: string) =>
-    api.post('/api/auth/register', { email, password, name }),
-  login: (email: string, password: string) =>
-    api.post('/api/auth/login', { email, password }),
+  register: (email: string, password: string, name?: string) => api.post('/api/auth/register', { email, password, name }),
+  login: (email: string, password: string) => api.post('/api/auth/login', { email, password }),
   getMe: () => api.get('/api/auth/me'),
   logout: () => api.post('/api/auth/logout'),
 };
 
 export const scannerApi = {
   getPresets: () => api.get('/api/scanner/presets'),
-  scanPorts: (host: string, ports: string, timeout?: number) =>
-    api.post('/api/scanner/ports', { host, ports, timeout }),
-  scanSingle: (host: string, port: number, timeout?: number) =>
-    api.post('/api/scanner/single', { host, port, timeout }),
+  scanPorts: (host: string, ports: string, timeout?: number) => api.post('/api/scanner/ports', { host, ports, timeout }),
+  scanSingle: (host: string, port: number, timeout?: number) => api.post('/api/scanner/single', { host, port, timeout }),
 };

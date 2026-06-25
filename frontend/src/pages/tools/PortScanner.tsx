@@ -29,7 +29,6 @@ export default function PortScanner() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load presets
     scannerApi.getPresets()
       .then(res => setPresets(res.data.presets))
       .catch(err => console.error('Failed to load presets:', err));
@@ -40,7 +39,6 @@ export default function PortScanner() {
       toast.error('Please enter a host');
       return;
     }
-
     if (!ports.trim()) {
       toast.error('Please enter ports to scan');
       return;
@@ -69,11 +67,9 @@ export default function PortScanner() {
 
   const copyResults = () => {
     if (!results) return;
-    
     const text = results.results
       .map(r => `${r.port}: ${r.status} (${r.responseTime}ms)`)
       .join('\n');
-    
     navigator.clipboard.writeText(text);
     toast.success('Results copied!');
   };
@@ -81,7 +77,6 @@ export default function PortScanner() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl p-6 mb-8">
           <div className="flex justify-between items-center">
             <div>
@@ -97,14 +92,10 @@ export default function PortScanner() {
           </div>
         </div>
 
-        {/* Input Section */}
         <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Host Input */}
             <div>
-              <label className="block text-slate-300 text-sm font-medium mb-2">
-                Target Host
-              </label>
+              <label className="block text-slate-300 text-sm font-medium mb-2">Target Host</label>
               <input
                 type="text"
                 value={host}
@@ -113,12 +104,8 @@ export default function PortScanner() {
                 className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
               />
             </div>
-
-            {/* Ports Input */}
             <div>
-              <label className="block text-slate-300 text-sm font-medium mb-2">
-                Ports (comma-separated or range)
-              </label>
+              <label className="block text-slate-300 text-sm font-medium mb-2">Ports (comma-separated or range)</label>
               <input
                 type="text"
                 value={ports}
@@ -129,11 +116,8 @@ export default function PortScanner() {
             </div>
           </div>
 
-          {/* Timeout */}
           <div className="mb-6">
-            <label className="block text-slate-300 text-sm font-medium mb-2">
-              Timeout (ms)
-            </label>
+            <label className="block text-slate-300 text-sm font-medium mb-2">Timeout (ms)</label>
             <input
               type="number"
               value={timeout}
@@ -145,11 +129,8 @@ export default function PortScanner() {
             />
           </div>
 
-          {/* Presets */}
           <div className="mb-6">
-            <label className="block text-slate-300 text-sm font-medium mb-2">
-              Quick Presets
-            </label>
+            <label className="block text-slate-300 text-sm font-medium mb-2">Quick Presets</label>
             <div className="flex flex-wrap gap-2">
               {Object.keys(presets).map(preset => (
                 <button
@@ -163,7 +144,6 @@ export default function PortScanner() {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex gap-4">
             <button
               onClick={handleScan}
@@ -173,11 +153,7 @@ export default function PortScanner() {
               {isScanning ? '⏳ Scanning...' : '🔍 Scan Ports'}
             </button>
             <button
-              onClick={() => {
-                setHost('localhost');
-                setPorts('80,443,3000,3001');
-                setResults(null);
-              }}
+              onClick={() => { setHost('localhost'); setPorts('80,443,3000,3001'); setResults(null); }}
               className="px-6 py-3 bg-slate-700/50 text-slate-300 border border-slate-600 rounded-lg hover:bg-slate-600/50 transition-all"
             >
               🗑️ Clear
@@ -185,10 +161,8 @@ export default function PortScanner() {
           </div>
         </div>
 
-        {/* Results Section */}
         {results && (
           <div className="space-y-6">
-            {/* Summary */}
             <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-cyan-400">📊 Scan Summary</h2>
@@ -199,7 +173,6 @@ export default function PortScanner() {
                   📋 Copy Results
                 </button>
               </div>
-
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 text-center">
                   <div className="text-slate-400 text-xs mb-1">Host</div>
@@ -218,16 +191,11 @@ export default function PortScanner() {
                   <div className="text-red-400 text-2xl font-bold">{results.closedPorts}</div>
                 </div>
               </div>
-
-              <div className="mt-4 text-sm text-slate-400">
-                ⏱️ Scan completed in {results.scanTime}ms
-              </div>
+              <div className="mt-4 text-sm text-slate-400">⏱️ Scan completed in {results.scanTime}ms</div>
             </div>
 
-            {/* Detailed Results */}
             <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl p-6">
               <h2 className="text-2xl font-bold text-cyan-400 mb-4">📋 Detailed Results</h2>
-              
               <div className="space-y-2">
                 {results.results.map((result, idx) => (
                   <div
@@ -250,14 +218,9 @@ export default function PortScanner() {
                         }`}>
                           {result.status === 'open' ? '✅ OPEN' : '❌ CLOSED'}
                         </div>
-                        {result.error && (
-                          <div className="text-xs text-slate-500">{result.error}</div>
-                        )}
                       </div>
                     </div>
-                    <div className="text-slate-400 text-sm">
-                      {result.responseTime}ms
-                    </div>
+                    <div className="text-slate-400 text-sm">{result.responseTime}ms</div>
                   </div>
                 ))}
               </div>
@@ -265,7 +228,6 @@ export default function PortScanner() {
           </div>
         )}
 
-        {/* Empty State */}
         {!results && !isScanning && (
           <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl p-12 text-center">
             <div className="text-6xl mb-4">🔍</div>

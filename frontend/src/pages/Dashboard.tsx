@@ -8,9 +8,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      navigate('/login');
-    }
+    if (!isLoading && !isAuthenticated) navigate('/login');
   }, [isAuthenticated, isLoading, navigate]);
 
   const handleLogout = async () => {
@@ -20,16 +18,10 @@ export default function Dashboard() {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="text-cyan-400 text-xl">Loading...</div>
-      </div>
-    );
+    return <div className="min-h-screen bg-slate-900 flex items-center justify-center"><div className="text-cyan-400 text-xl">Loading...</div></div>;
   }
 
-  const memberSince = user?.created_at 
-    ? new Date(user.created_at.replace(' ', 'T') + 'Z').toLocaleDateString()
-    : 'Unknown';
+  const memberSince = user?.created_at ? new Date(user.created_at.replace(' ', 'T') + 'Z').toLocaleDateString() : 'Unknown';
 
   const tools = [
     { name: 'Port Scanner', icon: '🔍', status: 'Active', path: '/tools/port-scanner' },
@@ -51,12 +43,7 @@ export default function Dashboard() {
               <h1 className="text-3xl font-bold text-cyan-400 mb-2">👻 4S Ghost Enterprise</h1>
               <p className="text-slate-400">Welcome back, {user?.name || 'User'}!</p>
             </div>
-            <button
-              onClick={handleLogout}
-              className="px-6 py-2 bg-red-500/20 text-red-400 border border-red-500/50 rounded-lg hover:bg-red-500/30 transition-all"
-            >
-              Logout
-            </button>
+            <button onClick={handleLogout} className="px-6 py-2 bg-red-500/20 text-red-400 border border-red-500/50 rounded-lg hover:bg-red-500/30 transition-all">Logout</button>
           </div>
         </div>
 
@@ -83,9 +70,7 @@ export default function Dashboard() {
                 key={tool.name}
                 onClick={() => tool.path && navigate(tool.path)}
                 className={`bg-slate-900/50 border border-slate-700 rounded-lg p-4 text-center transition-all ${
-                  tool.path
-                    ? 'cursor-pointer hover:border-cyan-500 hover:bg-slate-800/50'
-                    : 'opacity-60 cursor-not-allowed'
+                  tool.path ? 'cursor-pointer hover:border-cyan-500 hover:bg-slate-800/50' : 'opacity-60 cursor-not-allowed'
                 }`}
               >
                 <div className="text-3xl mb-2">{tool.icon}</div>

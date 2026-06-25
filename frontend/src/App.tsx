@@ -9,57 +9,23 @@ import PortScanner from './pages/tools/PortScanner';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
-
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <div className="text-cyan-400 text-xl">Loading...</div>
-      </div>
-    );
+    return <div className="min-h-screen bg-slate-900 flex items-center justify-center"><div className="text-cyan-400 text-xl">Loading...</div></div>;
   }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
 
 function App() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
-
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
-
+  useEffect(() => { checkAuth(); }, [checkAuth]);
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/tools/jwt-decoder"
-          element={
-            <ProtectedRoute>
-              <JWTDecoder />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/tools/port-scanner"
-          element={
-            <ProtectedRoute>
-              <PortScanner />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/tools/jwt-decoder" element={<ProtectedRoute><JWTDecoder /></ProtectedRoute>} />
+        <Route path="/tools/port-scanner" element={<ProtectedRoute><PortScanner /></ProtectedRoute>} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
       <Toaster position="top-right" />
