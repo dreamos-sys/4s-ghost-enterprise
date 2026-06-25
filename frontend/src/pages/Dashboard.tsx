@@ -27,6 +27,22 @@ export default function Dashboard() {
     );
   }
 
+  // Fix date parsing - SQLite format to ISO
+  const memberSince = user?.created_at 
+    ? new Date(user.created_at.replace(' ', 'T') + 'Z').toLocaleDateString()
+    : 'Unknown';
+
+  const tools = [
+    { name: 'Port Scanner', icon: '🔍', status: 'Coming soon', path: null },
+    { name: 'JWT Decoder', icon: '🔐', status: 'Active', path: '/tools/jwt-decoder' },
+    { name: 'XSS Finder', icon: '💉', status: 'Coming soon', path: null },
+    { name: 'SQL Injection', icon: '🗄️', status: 'Coming soon', path: null },
+    { name: 'Honeypot', icon: '🍯', status: 'Coming soon', path: null },
+    { name: 'Rate Limiter', icon: '⏱️', status: 'Coming soon', path: null },
+    { name: 'Bot Detector', icon: '🤖', status: 'Coming soon', path: null },
+    { name: 'AI Defense', icon: '🛡️', status: 'Coming soon', path: null },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
       <div className="max-w-7xl mx-auto">
@@ -56,18 +72,28 @@ export default function Dashboard() {
           </div>
           <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-xl p-6">
             <h3 className="text-slate-400 text-sm mb-2">Member Since</h3>
-            <p className="text-white text-lg">{new Date(user?.created_at || '').toLocaleDateString()}</p>
+            <p className="text-white text-lg">{memberSince}</p>
           </div>
         </div>
 
         <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl p-6">
           <h2 className="text-2xl font-bold text-white mb-6">🛠️ Security Tools</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {['Port Scanner', 'JWT Decoder', 'XSS Finder', 'SQL Injection', 'Honeypot', 'Rate Limiter', 'Bot Detector', 'AI Defense'].map((tool) => (
-              <div key={tool} className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 text-center cursor-pointer hover:border-cyan-500 transition-all">
-                <div className="text-3xl mb-2">🔧</div>
-                <div className="text-slate-300 text-sm">{tool}</div>
-                <div className="text-xs text-slate-500 mt-1">Coming soon</div>
+            {tools.map((tool) => (
+              <div
+                key={tool.name}
+                onClick={() => tool.path && navigate(tool.path)}
+                className={`bg-slate-900/50 border border-slate-700 rounded-lg p-4 text-center transition-all ${
+                  tool.path
+                    ? 'cursor-pointer hover:border-cyan-500 hover:bg-slate-800/50'
+                    : 'opacity-60 cursor-not-allowed'
+                }`}
+              >
+                <div className="text-3xl mb-2">{tool.icon}</div>
+                <div className="text-slate-300 text-sm font-medium">{tool.name}</div>
+                <div className={`text-xs mt-1 ${tool.status === 'Active' ? 'text-green-400' : 'text-slate-500'}`}>
+                  {tool.status === 'Active' ? '✅ ' : ''}{tool.status}
+                </div>
               </div>
             ))}
           </div>
