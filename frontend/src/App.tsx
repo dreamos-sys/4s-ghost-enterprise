@@ -17,6 +17,12 @@ import DNSRecon from './pages/tools/DNSRecon';
 import SSLChecker from './pages/tools/SSLChecker';
 import HTTPAnalyzer from './pages/tools/HTTPAnalyzer';
 import HashGenerator from './pages/tools/HashGenerator';
+import EncodingHub from './pages/hubs/EncodingHub';
+import GeneratorHub from './pages/hubs/GeneratorHub';
+import NetworkHub from './pages/hubs/NetworkHub';
+import DevToolsHub from './pages/hubs/DevToolsHub';
+import CryptoHub from './pages/hubs/CryptoHub';
+import WebHub from './pages/hubs/WebHub';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -36,7 +42,13 @@ function App() {
         <Route path="/tools/jwt-decoder" element={<ProtectedRoute><JWTDecoder /></ProtectedRoute>} />
         <Route path="/tools/port-scanner" element={<ProtectedRoute><PortScanner /></ProtectedRoute>} />
         <Route path="/tools/xss-finder" element={<ProtectedRoute><XSSFinder /></ProtectedRoute>} />
-        <Route path="/tools/hash-generator" element={<ProtectedRoute><HashGenerator /></ProtectedRoute>} />
+                <Route path="/tools/hash-generator" element={<ProtectedRoute><HashGenerator /></ProtectedRoute>} />
+        <Route path="/hubs/encoding" element={<ProtectedRoute><EncodingHub /></ProtectedRoute>} />
+        <Route path="/hubs/generator" element={<ProtectedRoute><GeneratorHub /></ProtectedRoute>} />
+        <Route path="/hubs/network" element={<ProtectedRoute><NetworkHub /></ProtectedRoute>} />
+        <Route path="/hubs/devtools" element={<ProtectedRoute><DevToolsHub /></ProtectedRoute>} />
+        <Route path="/hubs/crypto" element={<ProtectedRoute><CryptoHub /></ProtectedRoute>} />
+        <Route path="/hubs/web" element={<ProtectedRoute><WebHub /></ProtectedRoute>} />
         <Route path="/tools/http-analyzer" element={<ProtectedRoute><HTTPAnalyzer /></ProtectedRoute>} />
         <Route path="/tools/ssl-checker" element={<ProtectedRoute><SSLChecker /></ProtectedRoute>} />
         <Route path="/tools/dns-recon" element={<ProtectedRoute><DNSRecon /></ProtectedRoute>} />

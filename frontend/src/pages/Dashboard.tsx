@@ -24,6 +24,7 @@ export default function Dashboard() {
   const memberSince = user?.created_at ? new Date(user.created_at.replace(' ', 'T') + 'Z').toLocaleDateString() : 'Unknown';
 
   const tools = [
+    // Core AI Security
     { name: 'Port Scanner', icon: '🔍', status: 'Active', path: '/tools/port-scanner' },
     { name: 'JWT Decoder', icon: '🔐', status: 'Active', path: '/tools/jwt-decoder' },
     { name: 'XSS Finder', icon: '💉', status: 'Active', path: '/tools/xss-finder' },
@@ -32,10 +33,21 @@ export default function Dashboard() {
     { name: 'Rate Limiter', icon: '⏱️', status: 'Active', path: '/tools/rate-limiter' },
     { name: 'Bot Detector', icon: '🤖', status: 'Active', path: '/tools/bot-detector' },
     { name: 'AI Defense', icon: '🧠', status: 'Active', path: '/tools/ai-defense' },
+    
+    // Recon Tools
     { name: 'WHOIS Lookup', icon: '🔎', status: 'Active', path: '/tools/whois-lookup' },
     { name: 'DNS Recon', icon: '🌐', status: 'Active', path: '/tools/dns-recon' },
     { name: 'SSL Checker', icon: '🔒', status: 'Active', path: '/tools/ssl-checker' },
     { name: 'HTTP Analyzer', icon: '📡', status: 'Active', path: '/tools/http-analyzer' },
+    { name: 'Hash Generator', icon: '🔐', status: 'Active', path: '/tools/hash-generator' },
+    
+    // MEGA UTILITY HUBS (57 tools!)
+    { name: 'Encoding Hub', icon: '🔠', status: '8 Tools', path: '/hubs/encoding' },
+    { name: 'Generator Hub', icon: '🎲', status: '10 Tools', path: '/hubs/generator' },
+    { name: 'Network Hub', icon: '🌐', status: '10 Tools', path: '/hubs/network' },
+    { name: 'Dev Tools Hub', icon: '🛠️', status: '10 Tools', path: '/hubs/devtools' },
+    { name: 'Crypto Hub', icon: '🔐', status: '9 Tools', path: '/hubs/crypto' },
+    { name: 'Web Analyzer Hub', icon: '🕸️', status: '10 Tools', path: '/hubs/web' },
   ];
 
   return (
