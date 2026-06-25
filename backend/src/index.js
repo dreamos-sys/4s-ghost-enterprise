@@ -7,6 +7,7 @@ const { initDatabase, getDb } = require('./db/database');
 const auth = require('./modules/auth/auth');
 const { requireAuth } = require('./middleware/auth');
 const scannerRoutes = require('./routes/scanner');
+const xssRoutes = require('./routes/xss');
 
 async function startServer() {
   await initDatabase();
@@ -15,9 +16,8 @@ async function startServer() {
 
   app.use(helmet());
   app.use(cors());
-  app.use(express.json());
+  app.use(express.json({ limit: '10mb' }));
 
-  // Health check
   app.get('/health', (req, res) => {
     const db = getDb();
     const usersCount = db.exec(`SELECT COUNT(*) as count FROM users`);
@@ -39,7 +39,6 @@ async function startServer() {
     });
   });
 
-  // API info
   app.get('/api', (req, res) => {
     res.json({ 
       name: '4S Ghost Enterprise API',
@@ -50,12 +49,12 @@ async function startServer() {
         login: 'POST /api/auth/login',
         me: 'GET /api/auth/me (auth required)',
         logout: 'POST /api/auth/logout (auth required)',
-        scanner: 'POST /api/scanner/ports (auth required)'
+        scanner: 'POST /api/scanner/ports (auth required)',
+        xss: 'POST /api/xss/scan-content, POST /api/xss/scan-url (auth required)'
       }
     });
   });
 
-  // Auth routes
   app.post('/api/auth/register', async (req, res) => {
     try {
       const { email, password, name } = req.body;
@@ -101,10 +100,9 @@ async function startServer() {
     res.json({ message: 'Logged out successfully' });
   });
 
-  // Scanner routes (protected)
   app.use('/api/scanner', requireAuth, scannerRoutes);
+  app.use('/api/xss', requireAuth, xssRoutes);
 
-  // Error handler
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);
     res.status(500).json({ error: 'Internal server error' });

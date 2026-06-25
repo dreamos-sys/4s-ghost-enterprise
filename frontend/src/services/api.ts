@@ -39,3 +39,9 @@ export const scannerApi = {
   scanPorts: (host: string, ports: string, timeout?: number) => api.post('/api/scanner/ports', { host, ports, timeout }),
   scanSingle: (host: string, port: number, timeout?: number) => api.post('/api/scanner/single', { host, port, timeout }),
 };
+
+export const xssApi = {
+  getPatterns: () => api.get('/api/xss/patterns'),
+  scanContent: (content: string) => api.post('/api/xss/scan-content', { content }),
+  scanURL: (url: string) => api.post('/api/xss/scan-url', { url }),
+};

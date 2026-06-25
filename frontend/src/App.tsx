@@ -6,12 +6,11 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import JWTDecoder from './pages/tools/JWTDecoder';
 import PortScanner from './pages/tools/PortScanner';
+import XSSFinder from './pages/tools/XSSFinder';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
-  if (isLoading) {
-    return <div className="min-h-screen bg-slate-900 flex items-center justify-center"><div className="text-cyan-400 text-xl">Loading...</div></div>;
-  }
+  if (isLoading) return <div className="min-h-screen bg-slate-900 flex items-center justify-center"><div className="text-cyan-400 text-xl">Loading...</div></div>;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
@@ -26,11 +25,11 @@ function App() {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/tools/jwt-decoder" element={<ProtectedRoute><JWTDecoder /></ProtectedRoute>} />
         <Route path="/tools/port-scanner" element={<ProtectedRoute><PortScanner /></ProtectedRoute>} />
+        <Route path="/tools/xss-finder" element={<ProtectedRoute><XSSFinder /></ProtectedRoute>} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
       <Toaster position="top-right" />
     </BrowserRouter>
   );
 }
-
 export default App;
