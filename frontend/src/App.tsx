@@ -16,6 +16,7 @@ import WhoisLookup from './pages/tools/WhoisLookup';
 import DNSRecon from './pages/tools/DNSRecon';
 import SSLChecker from './pages/tools/SSLChecker';
 import HTTPAnalyzer from './pages/tools/HTTPAnalyzer';
+import HashGenerator from './pages/tools/HashGenerator';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -35,6 +36,7 @@ function App() {
         <Route path="/tools/jwt-decoder" element={<ProtectedRoute><JWTDecoder /></ProtectedRoute>} />
         <Route path="/tools/port-scanner" element={<ProtectedRoute><PortScanner /></ProtectedRoute>} />
         <Route path="/tools/xss-finder" element={<ProtectedRoute><XSSFinder /></ProtectedRoute>} />
+        <Route path="/tools/hash-generator" element={<ProtectedRoute><HashGenerator /></ProtectedRoute>} />
         <Route path="/tools/http-analyzer" element={<ProtectedRoute><HTTPAnalyzer /></ProtectedRoute>} />
         <Route path="/tools/ssl-checker" element={<ProtectedRoute><SSLChecker /></ProtectedRoute>} />
         <Route path="/tools/dns-recon" element={<ProtectedRoute><DNSRecon /></ProtectedRoute>} />

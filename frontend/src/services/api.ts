@@ -104,3 +104,12 @@ export const sslApi = {
 export const httpApi = {
   analyze: (url: string) => api.post('/api/http/analyze', { url }),
 };
+
+export const hashApi = {
+  generate: (input: string, algorithm?: string, encoding?: string) => 
+    api.post('/api/hash/generate', { input, algorithm, encoding }),
+  generateAll: (input: string, encoding?: string) => 
+    api.post('/api/hash/generate-all', { input, encoding }),
+  detect: (hash: string) => api.post('/api/hash/detect', { hash }),
+  compare: (input: string, hashes: any[]) => api.post('/api/hash/compare', { input, hashes }),
+};
