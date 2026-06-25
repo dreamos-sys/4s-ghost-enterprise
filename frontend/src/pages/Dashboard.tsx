@@ -34,7 +34,7 @@ export default function Dashboard() {
     { name: 'AI Defense', icon: '🧠', status: 'Active', path: '/tools/ai-defense' },
     { name: 'WHOIS Lookup', icon: '🔎', status: 'Active', path: '/tools/whois-lookup' },
     { name: 'DNS Recon', icon: '🌐', status: 'Active', path: '/tools/dns-recon' },
-    { name: 'SSL Checker', icon: '🔒', status: 'Coming soon', path: null },
+    { name: 'SSL Checker', icon: '🔒', status: 'Active', path: '/tools/ssl-checker' },
     { name: 'Hash Generator', icon: '🔐', status: 'Coming soon', path: null },
   ];
 

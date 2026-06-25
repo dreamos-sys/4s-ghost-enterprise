@@ -94,3 +94,8 @@ export const dnsApi = {
   checkSubdomains: (domain: string, subdomains?: string[]) => 
     api.post('/api/dns/subdomains', { domain, subdomains }),
 };
+
+
+export const sslApi = {
+  check: (domain: string, port?: number) => api.post('/api/ssl/check', { domain, port }),
+};
