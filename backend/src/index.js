@@ -14,6 +14,7 @@ const ratelimitRoutes = require('./routes/ratelimit');
 const botdetectorRoutes = require('./routes/botdetector');
 const aiRoutes = require('./routes/ai');
 const whoisRoutes = require('./routes/whois-lookup');
+const dnsRoutes = require('./routes/dns-recon');
 
 async function startServer() {
   await initDatabase();
@@ -119,6 +120,7 @@ async function startServer() {
   app.use('/api/botdetector', botdetectorRoutes);
   app.use('/api/ai', aiRoutes);
   app.use('/api/whois', whoisRoutes);
+  app.use('/api/dns', dnsRoutes);
 
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);

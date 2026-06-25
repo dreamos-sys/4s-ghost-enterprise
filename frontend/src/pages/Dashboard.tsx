@@ -33,7 +33,7 @@ export default function Dashboard() {
     { name: 'Bot Detector', icon: '🤖', status: 'Active', path: '/tools/bot-detector' },
     { name: 'AI Defense', icon: '🧠', status: 'Active', path: '/tools/ai-defense' },
     { name: 'WHOIS Lookup', icon: '🔎', status: 'Active', path: '/tools/whois-lookup' },
-    { name: 'DNS Recon', icon: '🌐', status: 'Coming soon', path: null },
+    { name: 'DNS Recon', icon: '🌐', status: 'Active', path: '/tools/dns-recon' },
     { name: 'SSL Checker', icon: '🔒', status: 'Coming soon', path: null },
     { name: 'Hash Generator', icon: '🔐', status: 'Coming soon', path: null },
   ];

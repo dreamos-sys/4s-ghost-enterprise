@@ -87,3 +87,10 @@ export const aiApi = {
 export const whoisApi = {
   lookup: (domain: string) => api.post('/api/whois/lookup', { domain }),
 };
+
+
+export const dnsApi = {
+  lookup: (domain: string) => api.post('/api/dns/lookup', { domain }),
+  checkSubdomains: (domain: string, subdomains?: string[]) => 
+    api.post('/api/dns/subdomains', { domain, subdomains }),
+};

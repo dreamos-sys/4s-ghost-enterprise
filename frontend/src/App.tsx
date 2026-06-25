@@ -13,6 +13,7 @@ import RateLimiter from './pages/tools/RateLimiter';
 import BotDetector from './pages/tools/BotDetector';
 import AIDefense from './pages/tools/AIDefense';
 import WhoisLookup from './pages/tools/WhoisLookup';
+import DNSRecon from './pages/tools/DNSRecon';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -32,6 +33,7 @@ function App() {
         <Route path="/tools/jwt-decoder" element={<ProtectedRoute><JWTDecoder /></ProtectedRoute>} />
         <Route path="/tools/port-scanner" element={<ProtectedRoute><PortScanner /></ProtectedRoute>} />
         <Route path="/tools/xss-finder" element={<ProtectedRoute><XSSFinder /></ProtectedRoute>} />
+        <Route path="/tools/dns-recon" element={<ProtectedRoute><DNSRecon /></ProtectedRoute>} />
         <Route path="/tools/whois-lookup" element={<ProtectedRoute><WhoisLookup /></ProtectedRoute>} />
         <Route path="/tools/ai-defense" element={<ProtectedRoute><AIDefense /></ProtectedRoute>} />
         <Route path="/tools/bot-detector" element={<ProtectedRoute><BotDetector /></ProtectedRoute>} />
