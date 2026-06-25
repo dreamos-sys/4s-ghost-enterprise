@@ -51,3 +51,10 @@ export const sqliApi = {
   extractParams: (url: string) => api.post('/api/sqli/extract-params', { url }),
   test: (url: string, attackType?: string, method?: string) => api.post('/api/sqli/test', { url, attackType, method }),
 };
+
+
+export const honeypotApi = {
+  getStats: (timeRange?: string) => api.get('/api/honeypot/stats', { params: { timeRange } }),
+  getLogs: (limit?: number, offset?: number) => api.get('/api/honeypot/logs', { params: { limit, offset } }),
+  clearLogs: () => api.post('/api/honeypot/clear'),
+};

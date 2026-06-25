@@ -9,6 +9,7 @@ const { requireAuth } = require('./middleware/auth');
 const scannerRoutes = require('./routes/scanner');
 const xssRoutes = require('./routes/xss');
 const sqliRoutes = require('./routes/sqli');
+const honeypotRoutes = require('./routes/honeypot');
 
 async function startServer() {
   await initDatabase();
@@ -52,7 +53,8 @@ async function startServer() {
         logout: 'POST /api/auth/logout (auth required)',
         scanner: 'POST /api/scanner/ports (auth required)',
         xss: 'POST /api/xss/scan-content, POST /api/xss/scan-url (auth required)',
-        sqli: 'POST /api/sqli/test (auth required)'
+        sqli: 'POST /api/sqli/test (auth required)',
+        honeypot: 'GET /api/honeypot/stats, GET /api/honeypot/logs (auth required)'
       }
     });
   });
@@ -102,9 +104,13 @@ async function startServer() {
     res.json({ message: 'Logged out successfully' });
   });
 
+  // Honeypot routes (MUST be first to catch suspicious paths)
+  app.use('/honeypot', honeypotRoutes);
+
   app.use('/api/scanner', requireAuth, scannerRoutes);
   app.use('/api/xss', requireAuth, xssRoutes);
   app.use('/api/sqli', requireAuth, sqliRoutes);
+  app.use('/api/honeypot', honeypotRoutes);
 
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);

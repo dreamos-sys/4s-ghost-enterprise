@@ -5,7 +5,6 @@ const path = require('path');
 const DB_PATH = path.join(__dirname, '../../data/app.db');
 const dataDir = path.join(__dirname, '../../data');
 
-// Pastikan folder data ada
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
@@ -16,7 +15,6 @@ let isShuttingDown = false;
 async function initDatabase() {
   const SQL = await initSqlJs();
   
-  // Load existing database atau create new
   if (fs.existsSync(DB_PATH)) {
     try {
       const buffer = fs.readFileSync(DB_PATH);
@@ -29,7 +27,7 @@ async function initDatabase() {
     db = new SQL.Database();
   }
 
-  // Init schema
+  // Users table
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +40,7 @@ async function initDatabase() {
     );
   `);
 
+  // Sessions table
   db.run(`
     CREATE TABLE IF NOT EXISTS sessions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -54,6 +53,7 @@ async function initDatabase() {
     );
   `);
 
+  // Audit logs table
   db.run(`
     CREATE TABLE IF NOT EXISTS audit_logs (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,11 +67,29 @@ async function initDatabase() {
     );
   `);
 
-  // Create indexes
+  // Honeypot logs table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS honeypot_logs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ip TEXT,
+      user_agent TEXT,
+      method TEXT,
+      path TEXT,
+      attack_type TEXT,
+      payload TEXT,
+      headers TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
+  // Indexes
   db.run(`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_sessions_token ON sessions(token);`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_logs(user_id);`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_audit_action ON audit_logs(action);`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_honeypot_ip ON honeypot_logs(ip);`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_honeypot_type ON honeypot_logs(attack_type);`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_honeypot_date ON honeypot_logs(created_at);`);
 
   console.log('✅ Database initialized');
   return db;
@@ -96,20 +114,17 @@ function saveDatabase() {
   }
 }
 
-// Auto-save setiap 30 detik
 const autoSaveInterval = setInterval(() => {
   if (db && !isShuttingDown) {
     saveDatabase();
   }
 }, 30000);
 
-// Graceful shutdown
 function cleanup() {
   if (isShuttingDown) return;
   isShuttingDown = true;
   
   console.log('\n🛑 Shutting down gracefully...');
-  
   clearInterval(autoSaveInterval);
   
   if (db) {
@@ -117,9 +132,7 @@ function cleanup() {
       saveDatabase();
       db.close();
       console.log('✅ Database closed');
-    } catch (err) {
-      // Ignore errors during shutdown
-    }
+    } catch (err) {}
   }
   
   process.exit(0);
