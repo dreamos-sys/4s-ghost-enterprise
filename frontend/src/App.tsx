@@ -11,6 +11,7 @@ import SQLiTester from './pages/tools/SQLiTester';
 import Honeypot from './pages/tools/Honeypot';
 import RateLimiter from './pages/tools/RateLimiter';
 import BotDetector from './pages/tools/BotDetector';
+import AIDefense from './pages/tools/AIDefense';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -30,6 +31,7 @@ function App() {
         <Route path="/tools/jwt-decoder" element={<ProtectedRoute><JWTDecoder /></ProtectedRoute>} />
         <Route path="/tools/port-scanner" element={<ProtectedRoute><PortScanner /></ProtectedRoute>} />
         <Route path="/tools/xss-finder" element={<ProtectedRoute><XSSFinder /></ProtectedRoute>} />
+        <Route path="/tools/ai-defense" element={<ProtectedRoute><AIDefense /></ProtectedRoute>} />
         <Route path="/tools/bot-detector" element={<ProtectedRoute><BotDetector /></ProtectedRoute>} />
         <Route path="/tools/rate-limiter" element={<ProtectedRoute><RateLimiter /></ProtectedRoute>} />
         <Route path="/tools/honeypot" element={<ProtectedRoute><Honeypot /></ProtectedRoute>} />

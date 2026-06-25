@@ -12,6 +12,7 @@ const sqliRoutes = require('./routes/sqli');
 const honeypotRoutes = require('./routes/honeypot');
 const ratelimitRoutes = require('./routes/ratelimit');
 const botdetectorRoutes = require('./routes/botdetector');
+const aiRoutes = require('./routes/ai');
 
 async function startServer() {
   await initDatabase();
@@ -115,6 +116,7 @@ async function startServer() {
   app.use('/api/honeypot', honeypotRoutes);
   app.use('/api/ratelimit', ratelimitRoutes);
   app.use('/api/botdetector', botdetectorRoutes);
+  app.use('/api/ai', aiRoutes);
 
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);

@@ -75,3 +75,10 @@ export const botdetectorApi = {
   getPatterns: () => api.get('/api/botdetector/patterns'),
   getTestAgents: () => api.get('/api/botdetector/test-agents'),
 };
+
+
+export const aiApi = {
+  getLandscape: () => api.get('/api/ai/landscape'),
+  analyzeIP: (ip: string) => api.get(`/api/ai/analyze-ip/${ip}`),
+  getPredictions: () => api.get('/api/ai/predictions'),
+};
