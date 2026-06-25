@@ -35,7 +35,7 @@ export default function Dashboard() {
     { name: 'WHOIS Lookup', icon: '🔎', status: 'Active', path: '/tools/whois-lookup' },
     { name: 'DNS Recon', icon: '🌐', status: 'Active', path: '/tools/dns-recon' },
     { name: 'SSL Checker', icon: '🔒', status: 'Active', path: '/tools/ssl-checker' },
-    { name: 'Hash Generator', icon: '🔐', status: 'Coming soon', path: null },
+    { name: 'HTTP Analyzer', icon: '📡', status: 'Active', path: '/tools/http-analyzer' },
   ];
 
   return (

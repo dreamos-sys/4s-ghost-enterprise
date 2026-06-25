@@ -99,3 +99,8 @@ export const dnsApi = {
 export const sslApi = {
   check: (domain: string, port?: number) => api.post('/api/ssl/check', { domain, port }),
 };
+
+
+export const httpApi = {
+  analyze: (url: string) => api.post('/api/http/analyze', { url }),
+};

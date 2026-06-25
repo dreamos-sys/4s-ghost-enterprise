@@ -16,6 +16,7 @@ const aiRoutes = require('./routes/ai');
 const whoisRoutes = require('./routes/whois-lookup');
 const dnsRoutes = require('./routes/dns-recon');
 const sslRoutes = require('./routes/ssl-checker');
+const httpAnalyzerRoutes = require('./routes/http-analyzer');
 
 async function startServer() {
   await initDatabase();
@@ -123,6 +124,7 @@ async function startServer() {
   app.use('/api/whois', whoisRoutes);
   app.use('/api/dns', dnsRoutes);
   app.use('/api/ssl', sslRoutes);
+  app.use('/api/http', httpAnalyzerRoutes);
 
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);
