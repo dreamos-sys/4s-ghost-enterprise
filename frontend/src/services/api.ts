@@ -67,3 +67,11 @@ export const ratelimitApi = {
     api.post('/api/ratelimit/simulate', { endpoint, numRequests, delayMs }),
   clear: () => api.post('/api/ratelimit/clear'),
 };
+
+
+export const botdetectorApi = {
+  analyze: (metrics?: any) => api.post('/api/botdetector/analyze', { metrics }),
+  analyzeUA: (userAgent: string) => api.post('/api/botdetector/analyze-ua', { userAgent }),
+  getPatterns: () => api.get('/api/botdetector/patterns'),
+  getTestAgents: () => api.get('/api/botdetector/test-agents'),
+};

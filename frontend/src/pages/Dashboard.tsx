@@ -30,7 +30,7 @@ export default function Dashboard() {
     { name: 'SQL Injection', icon: '🗄️', status: 'Active', path: '/tools/sqli-tester' },
     { name: 'Honeypot', icon: '🍯', status: 'Active', path: '/tools/honeypot' },
     { name: 'Rate Limiter', icon: '⏱️', status: 'Active', path: '/tools/rate-limiter' },
-    { name: 'Bot Detector', icon: '🤖', status: 'Coming soon', path: null },
+    { name: 'Bot Detector', icon: '🤖', status: 'Active', path: '/tools/bot-detector' },
     { name: 'AI Defense', icon: '🛡️', status: 'Coming soon', path: null },
   ];
 
