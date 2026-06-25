@@ -9,3 +9,5 @@ dist/
 /generated/prisma
 backend/.env
 backend/data/
+frontend/node_modules/
+frontend/dist/

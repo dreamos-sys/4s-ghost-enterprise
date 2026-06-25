@@ -11,14 +11,20 @@ if (!fs.existsSync(dataDir)) {
 }
 
 let db = null;
+let isShuttingDown = false;
 
 async function initDatabase() {
   const SQL = await initSqlJs();
   
   // Load existing database atau create new
   if (fs.existsSync(DB_PATH)) {
-    const buffer = fs.readFileSync(DB_PATH);
-    db = new SQL.Database(buffer);
+    try {
+      const buffer = fs.readFileSync(DB_PATH);
+      db = new SQL.Database(buffer);
+    } catch (err) {
+      console.log('⚠️  Database corrupted, creating new...');
+      db = new SQL.Database();
+    }
   } else {
     db = new SQL.Database();
   }
@@ -79,34 +85,52 @@ function getDb() {
 }
 
 function saveDatabase() {
-  if (db) {
-    const data = db.export();
-    const buffer = Buffer.from(data);
-    fs.writeFileSync(DB_PATH, buffer);
+  if (db && !isShuttingDown) {
+    try {
+      const data = db.export();
+      const buffer = Buffer.from(data);
+      fs.writeFileSync(DB_PATH, buffer);
+    } catch (err) {
+      console.error('⚠️  Failed to save database:', err.message);
+    }
   }
 }
 
 // Auto-save setiap 30 detik
-setInterval(() => {
-  if (db) {
+const autoSaveInterval = setInterval(() => {
+  if (db && !isShuttingDown) {
     saveDatabase();
   }
 }, 30000);
 
 // Graceful shutdown
-process.on('exit', () => {
+function cleanup() {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+  
+  console.log('\n🛑 Shutting down gracefully...');
+  
+  clearInterval(autoSaveInterval);
+  
   if (db) {
-    saveDatabase();
-    db.close();
+    try {
+      saveDatabase();
+      db.close();
+      console.log('✅ Database closed');
+    } catch (err) {
+      // Ignore errors during shutdown
+    }
   }
-});
-
-process.on('SIGINT', () => {
-  if (db) {
-    saveDatabase();
-    db.close();
-  }
+  
   process.exit(0);
+}
+
+process.on('exit', cleanup);
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
+process.on('uncaughtException', (err) => {
+  console.error('❌ Uncaught Exception:', err.message);
+  cleanup();
 });
 
 module.exports = { initDatabase, getDb, saveDatabase };
