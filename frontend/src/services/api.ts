@@ -82,3 +82,8 @@ export const aiApi = {
   analyzeIP: (ip: string) => api.get(`/api/ai/analyze-ip/${ip}`),
   getPredictions: () => api.get('/api/ai/predictions'),
 };
+
+
+export const whoisApi = {
+  lookup: (domain: string) => api.post('/api/whois/lookup', { domain }),
+};

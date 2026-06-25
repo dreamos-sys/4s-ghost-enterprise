@@ -32,6 +32,10 @@ export default function Dashboard() {
     { name: 'Rate Limiter', icon: '⏱️', status: 'Active', path: '/tools/rate-limiter' },
     { name: 'Bot Detector', icon: '🤖', status: 'Active', path: '/tools/bot-detector' },
     { name: 'AI Defense', icon: '🧠', status: 'Active', path: '/tools/ai-defense' },
+    { name: 'WHOIS Lookup', icon: '🔎', status: 'Active', path: '/tools/whois-lookup' },
+    { name: 'DNS Recon', icon: '🌐', status: 'Coming soon', path: null },
+    { name: 'SSL Checker', icon: '🔒', status: 'Coming soon', path: null },
+    { name: 'Hash Generator', icon: '🔐', status: 'Coming soon', path: null },
   ];
 
   return (
