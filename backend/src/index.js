@@ -8,6 +8,7 @@ const auth = require('./modules/auth/auth');
 const { requireAuth } = require('./middleware/auth');
 const scannerRoutes = require('./routes/scanner');
 const xssRoutes = require('./routes/xss');
+const sqliRoutes = require('./routes/sqli');
 
 async function startServer() {
   await initDatabase();
@@ -50,7 +51,8 @@ async function startServer() {
         me: 'GET /api/auth/me (auth required)',
         logout: 'POST /api/auth/logout (auth required)',
         scanner: 'POST /api/scanner/ports (auth required)',
-        xss: 'POST /api/xss/scan-content, POST /api/xss/scan-url (auth required)'
+        xss: 'POST /api/xss/scan-content, POST /api/xss/scan-url (auth required)',
+        sqli: 'POST /api/sqli/test (auth required)'
       }
     });
   });
@@ -102,6 +104,7 @@ async function startServer() {
 
   app.use('/api/scanner', requireAuth, scannerRoutes);
   app.use('/api/xss', requireAuth, xssRoutes);
+  app.use('/api/sqli', requireAuth, sqliRoutes);
 
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);

@@ -45,3 +45,9 @@ export const xssApi = {
   scanContent: (content: string) => api.post('/api/xss/scan-content', { content }),
   scanURL: (url: string) => api.post('/api/xss/scan-url', { url }),
 };
+
+export const sqliApi = {
+  getPayloads: () => api.get('/api/sqli/payloads'),
+  extractParams: (url: string) => api.post('/api/sqli/extract-params', { url }),
+  test: (url: string, attackType?: string, method?: string) => api.post('/api/sqli/test', { url, attackType, method }),
+};

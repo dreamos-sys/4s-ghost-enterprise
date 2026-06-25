@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import JWTDecoder from './pages/tools/JWTDecoder';
 import PortScanner from './pages/tools/PortScanner';
 import XSSFinder from './pages/tools/XSSFinder';
+import SQLiTester from './pages/tools/SQLiTester';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -26,6 +27,7 @@ function App() {
         <Route path="/tools/jwt-decoder" element={<ProtectedRoute><JWTDecoder /></ProtectedRoute>} />
         <Route path="/tools/port-scanner" element={<ProtectedRoute><PortScanner /></ProtectedRoute>} />
         <Route path="/tools/xss-finder" element={<ProtectedRoute><XSSFinder /></ProtectedRoute>} />
+        <Route path="/tools/sqli-tester" element={<ProtectedRoute><SQLiTester /></ProtectedRoute>} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
       <Toaster position="top-right" />

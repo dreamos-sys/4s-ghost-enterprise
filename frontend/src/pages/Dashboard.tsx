@@ -27,7 +27,7 @@ export default function Dashboard() {
     { name: 'Port Scanner', icon: '🔍', status: 'Active', path: '/tools/port-scanner' },
     { name: 'JWT Decoder', icon: '🔐', status: 'Active', path: '/tools/jwt-decoder' },
     { name: 'XSS Finder', icon: '💉', status: 'Active', path: '/tools/xss-finder' },
-    { name: 'SQL Injection', icon: '🗄️', status: 'Coming soon', path: null },
+    { name: 'SQL Injection', icon: '🗄️', status: 'Active', path: '/tools/sqli-tester' },
     { name: 'Honeypot', icon: '🍯', status: 'Coming soon', path: null },
     { name: 'Rate Limiter', icon: '⏱️', status: 'Coming soon', path: null },
     { name: 'Bot Detector', icon: '🤖', status: 'Coming soon', path: null },
