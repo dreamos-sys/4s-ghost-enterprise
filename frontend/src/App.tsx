@@ -5,6 +5,7 @@ import { useAuthStore } from './store/authStore';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import JWTDecoder from './pages/tools/JWTDecoder';
+import PortScanner from './pages/tools/PortScanner';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -48,6 +49,14 @@ function App() {
           element={
             <ProtectedRoute>
               <JWTDecoder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tools/port-scanner"
+          element={
+            <ProtectedRoute>
+              <PortScanner />
             </ProtectedRoute>
           }
         />

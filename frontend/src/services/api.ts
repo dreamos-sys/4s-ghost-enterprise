@@ -39,3 +39,11 @@ export const authApi = {
   getMe: () => api.get('/api/auth/me'),
   logout: () => api.post('/api/auth/logout'),
 };
+
+export const scannerApi = {
+  getPresets: () => api.get('/api/scanner/presets'),
+  scanPorts: (host: string, ports: string, timeout?: number) =>
+    api.post('/api/scanner/ports', { host, ports, timeout }),
+  scanSingle: (host: string, port: number, timeout?: number) =>
+    api.post('/api/scanner/single', { host, port, timeout }),
+};

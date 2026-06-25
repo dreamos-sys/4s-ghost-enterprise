@@ -27,13 +27,12 @@ export default function Dashboard() {
     );
   }
 
-  // Fix date parsing - SQLite format to ISO
   const memberSince = user?.created_at 
     ? new Date(user.created_at.replace(' ', 'T') + 'Z').toLocaleDateString()
     : 'Unknown';
 
   const tools = [
-    { name: 'Port Scanner', icon: '🔍', status: 'Coming soon', path: null },
+    { name: 'Port Scanner', icon: '🔍', status: 'Active', path: '/tools/port-scanner' },
     { name: 'JWT Decoder', icon: '🔐', status: 'Active', path: '/tools/jwt-decoder' },
     { name: 'XSS Finder', icon: '💉', status: 'Coming soon', path: null },
     { name: 'SQL Injection', icon: '🗄️', status: 'Coming soon', path: null },

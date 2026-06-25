@@ -6,14 +6,13 @@ require('dotenv').config();
 const { initDatabase, getDb } = require('./db/database');
 const auth = require('./modules/auth/auth');
 const { requireAuth } = require('./middleware/auth');
+const scannerRoutes = require('./routes/scanner');
 
 async function startServer() {
-  // Initialize database first
   await initDatabase();
 
   const app = express();
 
-  // Middleware
   app.use(helmet());
   app.use(cors());
   app.use(express.json());
@@ -50,7 +49,8 @@ async function startServer() {
         register: 'POST /api/auth/register',
         login: 'POST /api/auth/login',
         me: 'GET /api/auth/me (auth required)',
-        logout: 'POST /api/auth/logout (auth required)'
+        logout: 'POST /api/auth/logout (auth required)',
+        scanner: 'POST /api/scanner/ports (auth required)'
       }
     });
   });
@@ -59,11 +59,9 @@ async function startServer() {
   app.post('/api/auth/register', async (req, res) => {
     try {
       const { email, password, name } = req.body;
-      
       if (!email || !password) {
         return res.status(400).json({ error: 'Email and password required' });
       }
-
       const user = await auth.register(email, password, name);
       res.status(201).json({ message: 'User registered', user });
     } catch (err) {
@@ -74,11 +72,9 @@ async function startServer() {
   app.post('/api/auth/login', async (req, res) => {
     try {
       const { email, password } = req.body;
-      
       if (!email || !password) {
         return res.status(400).json({ error: 'Email and password required' });
       }
-
       const result = await auth.login(email, password);
       res.json(result);
     } catch (err) {
@@ -89,18 +85,13 @@ async function startServer() {
   app.get('/api/auth/me', requireAuth, (req, res) => {
     const db = getDb();
     const result = db.exec(`SELECT id, email, name, role, created_at FROM users WHERE id = ${req.user.userId}`);
-    
     if (result.length === 0 || result[0].values.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
-
     const columns = result[0].columns;
     const userRow = result[0].values[0];
     const user = {};
-    columns.forEach((col, idx) => {
-      user[col] = userRow[idx];
-    });
-
+    columns.forEach((col, idx) => { user[col] = userRow[idx]; });
     res.json({ user });
   });
 
@@ -110,13 +101,16 @@ async function startServer() {
     res.json({ message: 'Logged out successfully' });
   });
 
+  // Scanner routes (protected)
+  app.use('/api/scanner', requireAuth, scannerRoutes);
+
   // Error handler
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);
     res.status(500).json({ error: 'Internal server error' });
   });
 
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 3001;
 
   app.listen(PORT, () => {
     console.log(`🚀 4S Ghost Enterprise API`);
@@ -127,7 +121,6 @@ async function startServer() {
   });
 }
 
-// Start server
 startServer().catch(err => {
   console.error('Failed to start server:', err);
   process.exit(1);
