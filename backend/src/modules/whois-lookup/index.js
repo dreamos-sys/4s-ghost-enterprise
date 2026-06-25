@@ -14,7 +14,7 @@ async function lookupDomain(domain) {
     }
 
     const startTime = Date.now();
-    const result = await whois(cleanDomain);
+    const result = await whois(cleanDomain, { timeout: 10000 });
     const lookupTime = Date.now() - startTime;
 
     // Parse and format results
