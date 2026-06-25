@@ -58,3 +58,12 @@ export const honeypotApi = {
   getLogs: (limit?: number, offset?: number) => api.get('/api/honeypot/logs', { params: { limit, offset } }),
   clearLogs: () => api.post('/api/honeypot/clear'),
 };
+
+
+export const ratelimitApi = {
+  getConfigs: () => api.get('/api/ratelimit/configs'),
+  test: (ip?: string, endpoint?: string) => api.post('/api/ratelimit/test', { ip, endpoint }),
+  simulate: (endpoint?: string, numRequests?: number, delayMs?: number) => 
+    api.post('/api/ratelimit/simulate', { endpoint, numRequests, delayMs }),
+  clear: () => api.post('/api/ratelimit/clear'),
+};

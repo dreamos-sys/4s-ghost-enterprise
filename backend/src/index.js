@@ -10,6 +10,7 @@ const scannerRoutes = require('./routes/scanner');
 const xssRoutes = require('./routes/xss');
 const sqliRoutes = require('./routes/sqli');
 const honeypotRoutes = require('./routes/honeypot');
+const ratelimitRoutes = require('./routes/ratelimit');
 
 async function startServer() {
   await initDatabase();
@@ -111,6 +112,7 @@ async function startServer() {
   app.use('/api/xss', requireAuth, xssRoutes);
   app.use('/api/sqli', requireAuth, sqliRoutes);
   app.use('/api/honeypot', honeypotRoutes);
+  app.use('/api/ratelimit', ratelimitRoutes);
 
   app.use((err, req, res, next) => {
     console.error('Error:', err.stack);

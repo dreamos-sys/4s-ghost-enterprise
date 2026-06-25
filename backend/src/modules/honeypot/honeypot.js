@@ -2,27 +2,71 @@ const { getDb, saveDatabase } = require('../../db/database');
 
 const ATTACK_PATTERNS = {
   sqli: [
-    /union.*select/i, /or.*1.*=.*1/i, /'.*or.*'/i, /admin.*--/i,
-    /sleep\(/i, /benchmark\(/i, /waitfor/i, /information_schema/i
+    /union.*select/i,
+    /or\s+['"]?1['"]?\s*=\s*['"]?1/i,
+    /'\s*or\s*'/i,
+    /admin.*--/i,
+    /sleep\s*\(/i,
+    /benchmark\s*\(/i,
+    /waitfor\s+delay/i,
+    /information_schema/i,
+    /concat\s*\(/i,
+    /group_concat/i,
+    /load_file/i,
+    /into\s+outfile/i
   ],
   xss: [
-    /<script/i, /javascript:/i, /on\w+\s*=/i, /alert\(/i,
-    /<iframe/i, /<svg.*on/i, /document\.cookie/i
+    /<script/i,
+    /javascript\s*:/i,
+    /on\w+\s*=/i,
+    /alert\s*\(/i,
+    /<iframe/i,
+    /<svg[^>]*on\w+/i,
+    /document\.cookie/i,
+    /<img[^>]*onerror/i,
+    /eval\s*\(/i,
+    /<object/i,
+    /<embed/i,
+    /fromcharcode/i
   ],
   traversal: [
-    /\.\.\//i, /\.\.\\\\/i, /etc\/passwd/i, /proc\/self/i,
-    /windows\\\\system32/i, /boot\.ini/i
+    /\.\.\//,
+    /\.\.\\\\/,
+    /etc\/passwd/i,
+    /proc\/self/i,
+    /windows\\\\system32/i,
+    /boot\.ini/i,
+    /\/etc\/shadow/i,
+    /\.\.\/\.\.\//,
+    /\/var\/log/i,
+    /c:\\\\windows/i
   ],
   scan: [
-    /wp-admin/i, /phpmyadmin/i, /admin/i, /\.env/i,
-    /config\.php/i, /backup/i, /\.git/i, /shell/i
+    /wp-admin/i,
+    /phpmyadmin/i,
+    /\.env/i,
+    /config\.php/i,
+    /backup/i,
+    /\.git/i,
+    /shell\.php/i,
+    /administrator/i,
+    /admin\.php/i,
+    /login\.php/i,
+    /test\.php/i,
+    /info\.php/i
   ]
 };
 
 function detectAttackType(path, payload = '') {
-  const combined = (path + ' ' + payload).toLowerCase();
+  const combined = path + ' ' + payload;
+  
+  // Check patterns in priority order
   for (const [type, patterns] of Object.entries(ATTACK_PATTERNS)) {
-    if (patterns.some(p => p.test(combined))) return type;
+    for (const pattern of patterns) {
+      if (pattern.test(combined)) {
+        return type;
+      }
+    }
   }
   return 'other';
 }
@@ -33,7 +77,9 @@ function logAttack(req) {
   const userAgent = req.headers['user-agent'] || 'Unknown';
   const path = req.path;
   const method = req.method;
-  const payload = JSON.stringify(req.query || {}) + ' ' + JSON.stringify(req.body || {});
+  const queryStr = JSON.stringify(req.query || {});
+  const bodyStr = JSON.stringify(req.body || {});
+  const payload = queryStr + ' ' + bodyStr;
   const attackType = detectAttackType(path, payload);
   const headers = JSON.stringify(req.headers);
 

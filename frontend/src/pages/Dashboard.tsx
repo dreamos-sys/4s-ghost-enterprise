@@ -28,8 +28,8 @@ export default function Dashboard() {
     { name: 'JWT Decoder', icon: '🔐', status: 'Active', path: '/tools/jwt-decoder' },
     { name: 'XSS Finder', icon: '💉', status: 'Active', path: '/tools/xss-finder' },
     { name: 'SQL Injection', icon: '🗄️', status: 'Active', path: '/tools/sqli-tester' },
-    { name: 'Honeypot', icon: '🍯', status: 'Coming soon', path: null },
-    { name: 'Rate Limiter', icon: '⏱️', status: 'Coming soon', path: null },
+    { name: 'Honeypot', icon: '🍯', status: 'Active', path: '/tools/honeypot' },
+    { name: 'Rate Limiter', icon: '⏱️', status: 'Active', path: '/tools/rate-limiter' },
     { name: 'Bot Detector', icon: '🤖', status: 'Coming soon', path: null },
     { name: 'AI Defense', icon: '🛡️', status: 'Coming soon', path: null },
   ];
