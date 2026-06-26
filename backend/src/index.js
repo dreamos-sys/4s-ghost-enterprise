@@ -18,6 +18,7 @@ const dnsRoutes = require('./routes/dns-recon');
 const sslRoutes = require('./routes/ssl-checker');
 const httpAnalyzerRoutes = require('./routes/http-analyzer');
 const hashRoutes = require('./routes/hash-generator');
+const stealthRoutes = require('./routes/stealth');
 
 async function startServer() {
   await initDatabase();
@@ -125,6 +126,8 @@ async function startServer() {
   app.use('/api/ratelimit', ratelimitRoutes);
   app.use('/api/botdetector', botdetectorRoutes);
   app.use('/api/ai', aiRoutes);
+  app.use('/api/stealth', stealthRoutes);
+  app.use('/api/ghost', stealthRoutes); // Alias buat trap
   app.use('/api/whois', whoisRoutes);
   app.use('/api/dns', dnsRoutes);
   app.use('/api/ssl', sslRoutes);

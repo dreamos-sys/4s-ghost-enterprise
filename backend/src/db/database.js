@@ -91,6 +91,37 @@ async function initDatabase() {
   db.run(`CREATE INDEX IF NOT EXISTS idx_honeypot_type ON honeypot_logs(attack_type);`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_honeypot_date ON honeypot_logs(created_at);`);
 
+  
+  // Stealth Bridge tables (Dream OS integration)
+  db.run(`
+    CREATE TABLE IF NOT EXISTS stealth_beacons (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      session_id TEXT NOT NULL,
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+      page TEXT,
+      user_agent TEXT,
+      status TEXT DEFAULT 'active',
+      ip TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS ghost_traps (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ip TEXT NOT NULL,
+      user_agent TEXT,
+      path TEXT,
+      method TEXT,
+      headers TEXT,
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
+  db.run(`CREATE INDEX IF NOT EXISTS idx_beacon_session ON stealth_beacons(session_id);`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_beacon_time ON stealth_beacons(timestamp);`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_trap_ip ON ghost_traps(ip);`);
+
   console.log('✅ Database initialized');
   return db;
 }
