@@ -373,7 +373,7 @@ export default function AIDefense() {
                 </div>
                 <div className="text-sm text-slate-300 mb-2">{ipAnalysis.recommendation.reason}</div>
                 <div className="space-y-1 mt-2">
-                  {ipAnalysis.recommendation.steps.map((step, idx) => (
+                  {ipAnalysis.recommendation.steps.map((step: any, idx: number) => (
                     <div key={idx} className="text-xs text-slate-400 flex items-start gap-2">
                       <span className="text-cyan-400">✓</span>
                       <span>{step}</span>
