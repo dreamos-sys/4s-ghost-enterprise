@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { xssApi } from '../../services/api';
 import toast from 'react-hot-toast';
@@ -54,7 +54,7 @@ export default function XSSFinder() {
       if (response.data.totalFindings === 0) {
         toast.success('No XSS vulnerabilities found!');
       } else {
-        toast.warning(`Found ${response.data.totalFindings} potential XSS vulnerabilities`);
+        toast.error(`Found ${response.data.totalFindings} potential XSS vulnerabilities`);
       }
     } catch (error: any) {
       toast.error(error.response?.data?.error || 'Scan failed');

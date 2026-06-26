@@ -48,8 +48,7 @@ export default function DevToolsHub() {
       } else if (activeTool === 'chmod') {
         const num = input.replace(/^0/, '');
         if (/^[0-7]{3}$/.test(num)) {
-          const perms = ['rwx', 'rwx', 'rwx'];
-          const result_perms = num.split('').map((d, i) => {
+          const result_perms = num.split('').map((d) => {
             const n = parseInt(d);
             return (n & 4 ? 'r' : '-') + (n & 2 ? 'w' : '-') + (n & 1 ? 'x' : '-');
           }).join('');
