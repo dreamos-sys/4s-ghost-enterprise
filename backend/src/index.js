@@ -1,156 +1,89 @@
 const express = require('express');
 const cors = require('cors');
-const helmet = require('helmet');
+const path = require('path');
 require('dotenv').config();
 
-const { initDatabase, getDb } = require('./db/database');
-const auth = require('./modules/auth/auth');
-const { requireAuth } = require('./middleware/auth');
-const scannerRoutes = require('./routes/scanner');
-const xssRoutes = require('./routes/xss');
-const sqliRoutes = require('./routes/sqli');
-const honeypotRoutes = require('./routes/honeypot');
-const ratelimitRoutes = require('./routes/ratelimit');
-const botdetectorRoutes = require('./routes/botdetector');
-const aiRoutes = require('./routes/ai');
-const whoisRoutes = require('./routes/whois-lookup');
-const dnsRoutes = require('./routes/dns-recon');
-const sslRoutes = require('./routes/ssl-checker');
-const httpAnalyzerRoutes = require('./routes/http-analyzer');
-const hashRoutes = require('./routes/hash-generator');
-const stealthRoutes = require('./routes/stealth');
+const app = express();
 
-async function startServer() {
-  await initDatabase();
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-  const app = express();
+// Import routes
+const authRoutes = require('../routes/auth');
 
-  app.use(helmet());
-  app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:8082', 'http://localhost:8081', 'http://localhost:8080', 'http://localhost:3002', 'http://localhost:3003', 'http://localhost:5173'],
-    credentials: true
-  }));
-  app.use(express.json({ limit: '10mb' }));
+// Routes
+app.use('/api/auth', authRoutes);
 
-  app.get('/health', (req, res) => {
-    const db = getDb();
-    const usersCount = db.exec(`SELECT COUNT(*) as count FROM users`);
-    const sessionsCount = db.exec(`SELECT COUNT(*) as count FROM sessions`);
-    const logsCount = db.exec(`SELECT COUNT(*) as count FROM audit_logs`);
-
-    const stats = {
-      users: usersCount[0]?.values[0][0] || 0,
-      sessions: sessionsCount[0]?.values[0][0] || 0,
-      logs: logsCount[0]?.values[0][0] || 0
-    };
-    
-    res.json({ 
-      status: 'ok', 
-      timestamp: new Date().toISOString(),
-      version: '1.0.0',
-      database: 'SQLite (sql.js)',
-      stats
-    });
+// Health check
+app.get('/api', (req, res) => {
+  res.json({ 
+    message: '4S Ghost Enterprise API',
+    status: 'online',
+    version: '1.0.0',
+    timestamp: new Date().toISOString()
   });
+});
 
-  app.get('/api', (req, res) => {
-    res.json({ 
-      name: '4S Ghost Enterprise API',
-      version: '1.0.0',
-      endpoints: {
-        health: 'GET /health',
-        register: 'POST /api/auth/register',
-        login: 'POST /api/auth/login',
-        me: 'GET /api/auth/me (auth required)',
-        logout: 'POST /api/auth/logout (auth required)',
-        scanner: 'POST /api/scanner/ports (auth required)',
-        xss: 'POST /api/xss/scan-content, POST /api/xss/scan-url (auth required)',
-        sqli: 'POST /api/sqli/test (auth required)',
-        honeypot: 'GET /api/honeypot/stats, GET /api/honeypot/logs (auth required)'
-      }
-    });
-  });
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
-  app.post('/api/auth/register', async (req, res) => {
-    try {
-      const { email, password, name } = req.body;
-      if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password required' });
-      }
-      const user = await auth.register(email, password, name);
-      res.status(201).json({ message: 'User registered', user });
-    } catch (err) {
-      res.status(400).json({ error: err.message });
-    }
-  });
+// Database setup (SQLite)
+const Database = require('sql.js');
+const fs = require('fs');
 
-  app.post('/api/auth/login', async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password required' });
-      }
-      const result = await auth.login(email, password);
-      res.json(result);
-    } catch (err) {
-      res.status(401).json({ error: err.message });
-    }
-  });
+const DB_PATH = './data/app.db';
 
-  app.get('/api/auth/me', requireAuth, (req, res) => {
-    const db = getDb();
-    const result = db.exec(`SELECT id, email, name, role, created_at FROM users WHERE id = ${req.user.userId}`);
-    if (result.length === 0 || result[0].values.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    const columns = result[0].columns;
-    const userRow = result[0].values[0];
-    const user = {};
-    columns.forEach((col, idx) => { user[col] = userRow[idx]; });
-    res.json({ user });
-  });
-
-  app.post('/api/auth/logout', requireAuth, (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    auth.logout(token);
-    res.json({ message: 'Logged out successfully' });
-  });
-
-  // Honeypot routes (MUST be first to catch suspicious paths)
-  app.use('/honeypot', honeypotRoutes);
-
-  app.use('/api/scanner', requireAuth, scannerRoutes);
-  app.use('/api/xss', requireAuth, xssRoutes);
-  app.use('/api/sqli', requireAuth, sqliRoutes);
-  app.use('/api/honeypot', honeypotRoutes);
-  app.use('/api/ratelimit', ratelimitRoutes);
-  app.use('/api/botdetector', botdetectorRoutes);
-  app.use('/api/ai', aiRoutes);
-  app.use('/api/stealth', stealthRoutes);
-  app.use('/api/ghost', stealthRoutes); // Alias buat trap
-  app.use('/api/whois', whoisRoutes);
-  app.use('/api/dns', dnsRoutes);
-  app.use('/api/ssl', sslRoutes);
-  app.use('/api/http', httpAnalyzerRoutes);
-  app.use('/api/hash', hashRoutes);
-
-  app.use((err, req, res, next) => {
-    console.error('Error:', err.stack);
-    res.status(500).json({ error: 'Internal server error' });
-  });
-
-  const PORT = process.env.PORT || 3001;
-
-  app.listen(PORT, () => {
-    console.log(`🚀 4S Ghost Enterprise API`);
-    console.log(`📍 Running on http://localhost:${PORT}`);
-    console.log(`📊 Health: http://localhost:${PORT}/health`);
-    console.log(`📖 API: http://localhost:${PORT}/api`);
-    console.log(`🗄️  Database: data/app.db (SQLite via sql.js)`);
-  });
+// Initialize database
+if (!fs.existsSync('./data')) {
+  fs.mkdirSync('./data', { recursive: true });
 }
 
-startServer().catch(err => {
-  console.error('Failed to start server:', err);
-  process.exit(1);
+let db;
+if (fs.existsSync(DB_PATH)) {
+  const fileBuffer = fs.readFileSync(DB_PATH);
+  db = new Database(fileBuffer);
+} else {
+  db = new Database();
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE,
+      name TEXT,
+      role TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+  saveDatabase();
+}
+
+function saveDatabase() {
+  const data = db.export();
+  const buffer = Buffer.from(data);
+  fs.writeFileSync(DB_PATH, buffer);
+}
+
+// Start server
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log('✅ Database initialized');
+  console.log(`🚀 4S Ghost Enterprise API`);
+  console.log(`📍 Running on http://localhost:${PORT}`);
+  console.log(`📊 Health: http://localhost:${PORT}/health`);
+  console.log(`📖 API: http://localhost:${PORT}/api`);
+  console.log(`🗄️  Database: ${DB_PATH} (SQLite via sql.js)`);
 });
+
+// Graceful shutdown
+process.on('SIGINT', () => {
+  console.log('\n🛑 Shutting down gracefully...');
+  if (db) {
+    db.close();
+  }
+  console.log('✅ Database closed');
+  process.exit(0);
+});
+
+module.exports = app;
