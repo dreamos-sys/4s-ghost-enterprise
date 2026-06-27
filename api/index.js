@@ -38,3 +38,6 @@ app.get('/api/health', (req, res) => {
 
 // Export untuk Vercel
 module.exports.handler = serverless(app);
+
+// Vercel Serverless Export
+module.exports = app;
