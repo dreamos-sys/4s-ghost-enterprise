@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mobile Defense Live</title>
+  <style>
+    :root { --bg:#050505; --surface:#0a0a0a; --accent:#00f0ff; --text:#c0c0c0; --danger:#ff003c; --success:#00ff41; --warning:#ffaa00; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:var(--bg); color:var(--text); font-family:'Courier New',monospace; padding:20px; }
+    .card { background:rgba(10,10,10,0.9); border:1px solid rgba(0,240,255,0.2); padding:20px; border-radius:8px; margin-bottom:15px; }
+    .score { font-size:3rem; font-weight:bold; text-align:center; }
+    .threat { background:rgba(255,0,60,0.1); border:1px solid var(--danger); padding:10px; margin:5px 0; border-radius:5px; }
+    .signal { font-size:1.5rem; text-align:center; }
+    button { background:var(--accent); color:#000; border:none; padding:10px 20px; border-radius:5px; font-weight:bold; cursor:pointer; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  </style>
+</head>
+<body>
+  <h1 style="color:var(--accent);text-align:center;">📡 MOBILE DEFENSE LIVE</h1>
+  <div class="card">
+    <div class="score" id="securityScore">100</div>
+    <div style="text-align:center;color:var(--muted)">Security Score</div>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="signal" id="signalValue">--</div><div style="text-align:center;">Signal (dBm)</div></div>
+    <div class="card" id="towerBox"><div style="text-align:center;font-size:0.9rem;" id="towerValue">--</div><div style="text-align:center;">Tower</div></div>
+  </div>
+  <div class="card">
+    <h3 style="color:var(--warning)">⚠️ Threats</h3>
+    <div id="threatsContainer"><p>No threats</p></div>
+  </div>
+  <button onclick="fetchData()" style="width:100%;margin-top:10px;">🔄 REFRESH</button>
+
+  <script>
+    async function fetchData() {
+      try {
+        const res = await fetch('/api/mobile/report/latest');
+        const data = await res.json();
+        document.getElementById('securityScore').innerText = data.securityScore;
+        document.getElementById('signalValue').innerText = data.signalStrength;
+        document.getElementById('towerValue').innerText = data.towerId;
+        const threatsContainer = document.getElementById('threatsContainer');
+        if (data.threats && data.threats.length > 0) {
+          threatsContainer.innerHTML = data.threats.map(t => `<div class="threat"><strong>${t.type}</strong> (${t.severity})<br>${t.message}<br><small>${t.timestamp}</small></div>`).join('');
+        } else {
+          threatsContainer.innerHTML = '<p style="color:var(--success)">✅ No threats detected</p>';
+        }
+      } catch(e) { console.error(e); }
+    }
+    fetchData();
+    setInterval(fetchData, 5000);
+  </script>
+</body>
+</html>
