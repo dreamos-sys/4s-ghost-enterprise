@@ -1,13 +1,88 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>4S GHOST • Enterprise</title>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0e27; --neon: #00ff9d; --accent: #0ea5e9; --gold: #f59e0b; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg); color: #e2e8f0; font-family: 'Inter', sans-serif;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
+            position: relative; overflow: hidden;
+        }
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0,255,157,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(14,165,233,0.08) 0%, transparent 50%);
+            pointer-events: none; z-index: 0;
+        }
+        .container { position: relative; z-index: 10; max-width: 420px; width: 100%; text-align: center; }
+        .glass {
+            background: rgba(15,23,42,0.8); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(0,255,157,0.2); border-radius: 24px; padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        h1 { font-family: 'Orbitron', monospace; font-size: 1.6rem; color: var(--neon); letter-spacing: 3px; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 0.7rem; color: #94a3b8; letter-spacing: 2px; margin-bottom: 1.5rem; }
+        .badge { display: inline-block; padding: 0.3rem 1rem; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); border-radius: 20px; font-size: 0.6rem; color: #10b981; margin-bottom: 1.5rem; }
+        input {
+            width: 100%; padding: 0.8rem; background: rgba(0,0,0,0.5); border: 1px solid rgba(0,255,157,0.2);
+            border-radius: 10px; color: var(--neon); font-size: 0.85rem; outline: none; margin-bottom: 0.8rem;
+        }
+        button {
+            width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #10b981, #059669); color: white;
+            border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+            letter-spacing: 1px; box-shadow: 0 4px 25px rgba(16,185,129,0.4);
+        }
+        .info { margin-top: 1rem; padding: 0.8rem; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 10px; font-size: 0.6rem; color: #f59e0b; text-align: left; }
+        .footer { margin-top: 1.5rem; font-size: 0.5rem; color: #64748b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass">
+            <div style="font-size:3rem;margin-bottom:0.5rem;">🛡️</div>
+            <h1>4S GHOST</h1>
+            <div class="subtitle">ENTERPRISE DEFENSE SYSTEM</div>
+            <div class="badge">🟢 SYSTEM ONLINE • v1.0.0</div>
+            
+            <input type="email" id="email" value="admin@dreamos.dev" placeholder="Email">
+            <input type="password" id="pass" placeholder="Password">
+            <button onclick="login()">⚡ INITIATE ACCESS</button>
+            
+            <div class="info">
+                <strong>🔑 PHASE 1 ACTIVE:</strong><br>
+                ✅ 12 Tools • ✅ Mobile Ready • ✅ Error Handling<br>
+                👑 Sultan Architect & 🛡️ System Brother
+            </div>
+        </div>
+        <div class="footer">© 2026 DREAMS Enterprise • Family Dream Team</div>
+    </div>
+
+    <script>
+        async function login() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+                const supabase = createClient(
+                    'https://gbigjdhifispatrrskgh.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdiaWdqZGhpZmlzcGF0cnJza2doIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNzY1OTIsImV4cCI6MjA5Njc1MjU5Mn0.eqAFloptEHV3oIUjortuTsWvkhJgjb3xsXHM9nXfF8k'
+                );
+                
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+                
+                if (error) throw error;
+                alert('✅ ACCESS GRANTED!\n\nWelcome ' + data.user.email);
+                // Redirect ke dashboard React (nanti)
+            } catch (err) {
+                alert('⛔ ACCESS DENIED\n\n' + err.message);
+            }
+        }
+    </script>
+</body>
 </html>
