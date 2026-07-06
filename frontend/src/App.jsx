@@ -1,244 +1,189 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [email, setEmail] = useState('admin@dreamos.dev');
-  const [password, setPassword] = useState('');
+  const [time, setTime] = useState(new Date());
+  const [page, setPage] = useState('login');
+  const [user, setUser] = useState(null);
 
-  const handleLogin = () => {
-    alert('🔐 Login attempted with: ' + email);
-  };
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div style={{
-      background: '#0a0e27',
+      background: '#020617',
       color: '#e2e8f0',
       fontFamily: "'Inter', sans-serif",
       minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '2rem',
+      maxWidth: '100vw',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Starfield background */}
-      <canvas id="star-field" style={{
+      {/* Grid Background */}
+      <div style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 0,
-        pointerEvents: 'none'
+        backgroundImage: 'linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+        pointerEvents: 'none',
+        zIndex: 0
       }} />
 
-      <div style={{
-        position: 'relative',
-        zIndex: 10,
-        textAlign: 'center',
-        maxWidth: '450px',
-        width: '100%'
-      }}>
-        {/* Glass panel */}
+      {/* Content */}
+      <div style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
+        
+        {/* Header Bar */}
         <div style={{
-          background: 'rgba(15, 23, 42, 0.75)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          border: '1px solid rgba(0, 255, 157, 0.2)',
-          borderRadius: '24px',
-          padding: '2.5rem 2rem',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 255, 157, 0.1)'
+          background: 'rgba(0,0,0,0.8)',
+          backdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(0,255,157,0.2)',
+          padding: '0.8rem 1.2rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100
         }}>
-          {/* Logo */}
-          <div style={{
-            fontSize: '4rem',
-            marginBottom: '0.5rem',
-            filter: 'drop-shadow(0 0 20px rgba(0, 255, 157, 0.5))'
-          }}>
-            🛡️
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+            <div style={{
+              width: '35px',
+              height: '35px',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #00ff9d, #0ea5e9)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontFamily: "'Orbitron', monospace",
+              fontWeight: 900,
+              fontSize: '0.8rem',
+              color: '#020617'
+            }}>
+              4S
+            </div>
+            <div>
+              <div style={{ fontFamily: "'Orbitron', monospace", fontWeight: 700, color: '#00ff9d', fontSize: '0.85rem', letterSpacing: '2px' }}>
+                GHOST ENTERPRISE
+              </div>
+              <div style={{ fontSize: '0.5rem', color: '#64748b', letterSpacing: '1px' }}>
+                INTERNAL DEV TOOLS • PHASE 1
+              </div>
+            </div>
           </div>
-
-          {/* Title */}
-          <h1 style={{
-            fontFamily: "'Orbitron', monospace",
-            fontSize: '1.8rem',
-            fontWeight: 700,
-            color: '#00ff9d',
-            textShadow: '0 0 30px rgba(0, 255, 157, 0.5)',
-            marginBottom: '0.3rem',
-            letterSpacing: '2px'
-          }}>
-            4S GHOST
-          </h1>
           
-          <div style={{
-            fontSize: '0.75rem',
-            color: '#94a3b8',
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-            marginBottom: '0.5rem'
-          }}>
-            Enterprise Defense System
-          </div>
-
-          {/* Status badge */}
-          <div style={{
-            display: 'inline-block',
-            padding: '0.3rem 1rem',
-            background: 'rgba(16, 185, 129, 0.15)',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
-            borderRadius: '20px',
-            fontSize: '0.65rem',
-            color: '#10b981',
-            fontWeight: 600,
-            letterSpacing: '1px',
-            marginBottom: '1.5rem',
-            animation: 'pulse 2s infinite'
-          }}>
-            🟢 SYSTEM ONLINE • v1.0.0
-          </div>
-
-          {/* Email input */}
-          <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
-            <div style={{
-              fontSize: '0.6rem',
-              color: '#00ff9d',
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              marginBottom: '0.3rem',
-              fontFamily: "'Orbitron', monospace"
-            }}>
-              ▸ USER IDENTITY
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ fontSize: '0.65rem', color: '#64748b', fontFamily: "'Courier New', monospace" }}>
+              {time.toLocaleTimeString('id-ID')}
             </div>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '0.8rem 1rem',
-                background: 'rgba(0, 0, 0, 0.5)',
-                border: '2px solid rgba(0, 255, 157, 0.2)',
-                borderRadius: '12px',
-                color: '#00ff9d',
-                fontSize: '0.9rem',
-                fontFamily: "'Inter', sans-serif",
-                outline: 'none'
-              }}
-            />
-          </div>
-
-          {/* Password input */}
-          <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
             <div style={{
-              fontSize: '0.6rem',
-              color: '#00ff9d',
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              marginBottom: '0.3rem',
-              fontFamily: "'Orbitron', monospace"
-            }}>
-              ▸ ACCESS CREDENTIALS
-            </div>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••"
-              style={{
-                width: '100%',
-                padding: '0.8rem 1rem',
-                background: 'rgba(0, 0, 0, 0.5)',
-                border: '2px solid rgba(0, 255, 157, 0.2)',
-                borderRadius: '12px',
-                color: '#00ff9d',
-                fontSize: '0.9rem',
-                fontFamily: "'Inter', sans-serif",
-                outline: 'none'
-              }}
-            />
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              background: '#10b981',
+              boxShadow: '0 0 8px #10b981',
+              animation: 'pulse 2s infinite'
+            }} />
           </div>
+        </div>
 
-          {/* Login button */}
-          <button
-            onClick={handleLogin}
-            style={{
-              width: '100%',
-              padding: '0.9rem',
-              background: 'linear-gradient(135deg, #10b981, #059669)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '12px',
-              fontSize: '0.95rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              letterSpacing: '1px',
-              textTransform: 'uppercase',
-              boxShadow: '0 4px 25px rgba(16, 185, 129, 0.4)',
-              marginTop: '0.5rem'
-            }}
-          >
-            ⚡ INITIATE ACCESS
-          </button>
-
-          {/* Demo info */}
+        {/* Main Content */}
+        <div style={{ padding: '1rem', maxWidth: '900px', margin: '0 auto' }}>
+          
+          {/* Status Card */}
           <div style={{
-            marginTop: '1.5rem',
-            padding: '0.8rem',
-            background: 'rgba(245, 158, 11, 0.08)',
-            border: '1px solid rgba(245, 158, 11, 0.2)',
-            borderRadius: '12px',
-            fontSize: '0.65rem',
-            color: '#f59e0b',
-            textAlign: 'left'
+            background: 'linear-gradient(135deg, rgba(0,255,157,0.05), rgba(14,165,233,0.05))',
+            border: '1px solid rgba(0,255,157,0.15)',
+            borderRadius: '16px',
+            padding: '1.2rem',
+            marginBottom: '1rem'
           }}>
-            <strong>🔑 DEMO ACCESS:</strong><br />
-            <code style={{ color: '#00ff9d', fontSize: '0.6rem' }}>Email: admin@dreamos.dev</code>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h2 style={{ fontFamily: "'Orbitron', monospace", fontSize: '1.2rem', color: '#00ff9d', margin: 0 }}>
+                  4S GHOST v1.0
+                </h2>
+                <p style={{ fontSize: '0.65rem', color: '#94a3b8', margin: '0.3rem 0' }}>
+                  Cyber Defense & Bug Bounty Suite
+                </p>
+              </div>
+              <div style={{
+                padding: '0.3rem 0.8rem',
+                background: 'rgba(16,185,129,0.15)',
+                border: '1px solid rgba(16,185,129,0.3)',
+                borderRadius: '20px',
+                fontSize: '0.6rem',
+                color: '#10b981'
+              }}>
+                🟢 SYSTEM READY
+              </div>
+            </div>
           </div>
 
-          {/* Stats */}
+          {/* Tools Grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '0.5rem',
-            marginTop: '1.5rem'
+            gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+            gap: '0.6rem'
           }}>
             {[
-              { value: '70+', label: 'Tools' },
-              { value: '24/7', label: 'Monitor' },
-              { value: 'AI', label: 'Defense' }
-            ].map((stat, i) => (
+              { icon: '🌐', name: 'Network', desc: 'Scanner', color: '#00ff9d' },
+              { icon: '🛡️', name: 'Defense', desc: 'Protection', color: '#0ea5e9' },
+              { icon: '🔍', name: 'Forensic', desc: 'Analysis', color: '#8b5cf6' },
+              { icon: '🤖', name: 'AI Core', desc: 'Engine', color: '#f59e0b' },
+              { icon: '💉', name: 'XSS Test', desc: 'Scanner', color: '#ef4444' },
+              { icon: '🔐', name: 'JWT Tool', desc: 'Decoder', color: '#ec4899' },
+              { icon: '🍯', name: 'Honeypot', desc: 'Trap', color: '#f59e0b' },
+              { icon: '⚡', name: 'Rate Limit', desc: 'Protect', color: '#0ea5e9' },
+              { icon: '🕵️', name: 'Whois', desc: 'Lookup', color: '#8b5cf6' },
+              { icon: '🔒', name: 'SSL Check', desc: 'Verify', color: '#10b981' },
+              { icon: '📡', name: 'DNS Recon', desc: 'Scan', color: '#00ff9d' },
+              { icon: '🤖', name: 'Bot Detect', desc: 'Filter', color: '#ef4444' }
+            ].map((tool, i) => (
               <div key={i} style={{
-                padding: '0.6rem',
-                background: 'rgba(0, 0, 0, 0.3)',
+                background: 'rgba(0,0,0,0.4)',
+                border: '1px solid rgba(255,255,255,0.05)',
                 borderRadius: '12px',
-                border: '1px solid rgba(255, 255, 255, 0.05)'
-              }}>
-                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#00ff9d' }}>
-                  {stat.value}
-                </div>
-                <div style={{ fontSize: '0.5rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  {stat.label}
-                </div>
+                padding: '0.8rem',
+                textAlign: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                backdropFilter: 'blur(10px)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = tool.color;
+                e.currentTarget.style.boxShadow = '0 0 20px ' + tool.color + '20';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+              >
+                <div style={{ fontSize: '1.5rem', marginBottom: '0.3rem' }}>{tool.icon}</div>
+                <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#e2e8f0' }}>{tool.name}</div>
+                <div style={{ fontSize: '0.5rem', color: '#64748b' }}>{tool.desc}</div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Footer */}
-        <div style={{
-          marginTop: '1.5rem',
-          fontSize: '0.6rem',
-          color: '#64748b',
-          letterSpacing: '1px'
-        }}>
-          © 2026 DREAMS Enterprise • System ID: DRE-ENT-001 • ISO 27001
+          {/* Footer */}
+          <div style={{
+            textAlign: 'center',
+            marginTop: '2rem',
+            padding: '1rem',
+            fontSize: '0.55rem',
+            color: '#475569',
+            letterSpacing: '2px'
+          }}>
+            👑 SULTAN ARCHITECT & 🛡️ SYSTEM BROTHER • FAMILY DREAM TEAM • PHASE 1
+          </div>
         </div>
       </div>
 
-      {/* Pulse animation */}
       <style>{`
         @keyframes pulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-          50% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
         }
       `}</style>
     </div>
