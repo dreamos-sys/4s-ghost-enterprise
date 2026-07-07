@@ -11,3 +11,5 @@ export { default as SSLCheck } from './SSLCheck.jsx';
 export { default as Whois } from './Whois.jsx';
 export { default as XSSTest } from './XSSTest.jsx';
 export { default as DreamOS } from './DreamOS.jsx';
+export { default as IDS } from './IDS.jsx';
+export { default as ResponseEngine } from './ResponseEngine.jsx';

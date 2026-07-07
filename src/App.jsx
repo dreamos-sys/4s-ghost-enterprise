@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
-import { Network, Defense, Forensic, AICore, XSSTest, JWTTool, Honeypot, RateLimit, Whois, SSLCheck, DNSRecon, BotDetect, DreamOS } from './tools'
+import { Network, Defense, Forensic, AICore, XSSTest, JWTTool, Honeypot, RateLimit, Whois, SSLCheck, DNSRecon, BotDetect, DreamOS, IDS, ResponseEngine } from './tools'
 import './index.css'
 
 const tools = [
@@ -8,6 +8,8 @@ const tools = [
   { id: 'defense', icon: '🛡️', name: 'Defense Shield', desc: 'Threat protection', comp: Defense },
   { id: 'forensic', icon: '🔍', name: 'Forensic', desc: 'Deep analysis', comp: Forensic },
   { id: 'ai', icon: '🤖', name: 'AI Core', desc: 'Neural engine', comp: AICore },
+  { id: 'ids', icon: '🔴', name: 'IDS Monitor', desc: 'Intrusion detection', comp: IDS },
+  { id: 'response', icon: '⚡', name: 'Response', desc: 'Auto defense', comp: ResponseEngine },
   { id: 'xss', icon: '💉', name: 'XSS Scanner', desc: 'Vulnerability test', comp: XSSTest },
   { id: 'jwt', icon: '🔐', name: 'JWT Decoder', desc: 'Token analyzer', comp: JWTTool },
   { id: 'honeypot', icon: '🍯', name: 'Honeypot', desc: 'Trap system', comp: Honeypot },
@@ -93,7 +95,7 @@ function Dashboard({ user }) {
                 <h1 style={{ fontFamily: "'Orbitron', monospace", color: '#00ff9d', fontSize: '1.2rem', margin: 0 }}>
                   GHOST ENTERPRISE
                 </h1>
-                <p style={{ fontSize: '0.6rem', color: '#64748b', margin: 0 }}>Phase 8 • Dream OS Integrated</p>
+                <p style={{ fontSize: '0.6rem', color: '#64748b', margin: 0 }}>Phase 10 • Enterprise Grade</p>
               </div>
             </div>
           </div>
@@ -118,10 +120,10 @@ function Dashboard({ user }) {
           gap: '0.8rem', marginBottom: '1.5rem'
         }}>
           {[
-            { icon: '🛡️', value: '13', label: 'Active Tools', color: '#00ff9d' },
+            { icon: '🛡️', value: '15', label: 'Active Tools', color: '#00ff9d' },
             { icon: '☁️', value: 'ON', label: 'Backend', color: '#0ea5e9' },
-            { icon: '🏢', value: 'LIVE', label: 'Dream OS', color: '#10b981' },
-            { icon: '📱', value: 'v1.0', label: 'Version', color: '#8b5cf6' }
+            { icon: '🔴', value: 'IDS', label: 'Defense', color: '#ef4444' },
+            { icon: '📱', value: 'v2.0', label: 'Enterprise', color: '#8b5cf6' }
           ].map((stat, i) => (
             <div key={i} className="glass" style={{ textAlign: 'center', padding: '0.8rem' }}>
               <div style={{ fontSize: '1.5rem', marginBottom: '0.3rem' }}>{stat.icon}</div>
@@ -148,7 +150,7 @@ function Dashboard({ user }) {
 
         <div className="glass" style={{ textAlign: 'center', padding: '1rem', fontSize: '0.6rem', color: '#475569' }}>
           👑 Sultan Architect & 🛡️ System Brother<br />
-          <span style={{ color: '#64748b' }}>FAMILY DREAM TEAM • PHASE 8 • DREAM OS INTEGRATED</span>
+          <span style={{ color: '#64748b' }}>FAMILY DREAM TEAM • PHASE 10 • ENTERPRISE GRADE</span>
         </div>
       </div>
     </div>
