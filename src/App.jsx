@@ -60,7 +60,7 @@ function LoginPage({ onLogin }) {
       if (authError) throw authError;
       onLogin(data.user);
     } catch (err) {
-      setError(err.message);
+      setError(err.message + "\n\nCheck console for details"); console.error("Login error:", err);
     }
     setLoading(false);
   };
