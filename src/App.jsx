@@ -19,11 +19,7 @@ const tools = [
 
 function Dashboard({ user }) {
   const [page, setPage] = useState('home')
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
-    window.location.reload()
-  }
+  const handleLogout = async () => { await supabase.auth.signOut(); window.location.reload() }
 
   if (page !== 'home') {
     const tool = tools.find(t => t.id === page)
@@ -31,13 +27,13 @@ function Dashboard({ user }) {
     return (
       <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0' }}>
         <button onClick={() => setPage('home')} style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10, padding: '0.5rem 1rem', background: '#0ea5e9', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>← Back</button>
-        {Component ? <Component /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><p style={{ color: '#94a3b8' }}>🚧 Tool sedang diproses</p></div>}
+        {Component ? <Component /> : <p>Tool not found</p>}
       </div>
     )
   }
 
   return (
-    <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0', fontFamily: "'Inter', sans-serif", padding: '1rem' }}>
+    <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0', fontFamily: 'Inter, sans-serif', padding: '1rem' }}>
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <h1 style={{ fontFamily: "'Orbitron', monospace", color: '#00ff9d', margin: 0, fontSize: '1.3rem' }}>🛡️ 4S GHOST</h1>
@@ -46,7 +42,6 @@ function Dashboard({ user }) {
             <button onClick={handleLogout} style={{ background: 'rgba(239,68,68,0.2)', border: '1px solid #ef4444', color: '#ef4444', padding: '0.4rem 0.8rem', borderRadius: '8px', cursor: 'pointer', fontWeight: 700, fontSize: '0.7rem' }}>LOGOUT</button>
           </div>
         </div>
-
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.6rem' }}>
           {tools.map(t => (
             <div key={t.id} onClick={() => setPage(t.id)} style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '1rem 0.5rem', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}>
@@ -55,7 +50,6 @@ function Dashboard({ user }) {
             </div>
           ))}
         </div>
-
         <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 4</p>
       </div>
     </div>
@@ -70,15 +64,12 @@ function LoginPage() {
   const [user, setUser] = useState(null)
 
   const handleLogin = async () => {
-    setLoading(true)
-    setError('')
+    setLoading(true); setError('')
     try {
       const { data, error: err } = await supabase.auth.signInWithPassword({ email, password: pass })
       if (err) throw err
       setUser(data.user)
-    } catch (e) {
-      setError(e.message)
-    }
+    } catch (e) { setError(e.message) }
     setLoading(false)
   }
 
@@ -99,8 +90,5 @@ function LoginPage() {
   )
 }
 
-function App() {
-  return <LoginPage />
-}
-
+function App() { return <LoginPage /> }
 export default App
