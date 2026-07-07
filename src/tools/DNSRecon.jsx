@@ -4,19 +4,13 @@ export default function DNSRecon() {
   const [domain, setDomain] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  
   const scan = async () => {
     setLoading(true);
     setResult('⏳ Scanning DNS...');
     const data = await dnsScan(domain);
-    if (data.error) {
-      setResult(`⚠️ ${data.error}`);
-    } else {
-      setResult(`✅ DNS records for ${data.domain}:\n${data.records.map(r => `${r.type}: ${r.value}`).join('\n')}`);
-    }
+    setResult(JSON.stringify(data, null, 2));
     setLoading(false);
   };
-  
   return (
     <div style={{background:'#020617',minHeight:'100vh',color:'#e2e8f0',padding:'2rem',fontFamily:'Inter,sans-serif'}}>
       <h1 style={{color:'#00ff9d',fontFamily:'Orbitron,monospace'}}>📡 DNS Recon</h1>

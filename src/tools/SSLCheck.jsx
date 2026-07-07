@@ -4,19 +4,13 @@ export default function SSLCheck() {
   const [domain, setDomain] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  
   const check = async () => {
     setLoading(true);
     setResult('⏳ Checking SSL...');
     const data = await checkSSL(domain);
-    if (data.error) {
-      setResult(`⚠️ ${data.error}`);
-    } else {
-      setResult(`✅ SSL Certificate for ${data.domain}:\nIssuer: ${data.issuer}\nValid: ${data.validFrom} - ${data.validTo}\nGrade: ${data.grade}`);
-    }
+    setResult(JSON.stringify(data, null, 2));
     setLoading(false);
   };
-  
   return (
     <div style={{background:'#020617',minHeight:'100vh',color:'#e2e8f0',padding:'2rem',fontFamily:'Inter,sans-serif'}}>
       <h1 style={{color:'#00ff9d',fontFamily:'Orbitron,monospace'}}>🔒 SSL Checker</h1>

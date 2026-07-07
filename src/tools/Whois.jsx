@@ -4,19 +4,13 @@ export default function Whois() {
   const [domain, setDomain] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  
   const lookup = async () => {
     setLoading(true);
     setResult('⏳ Looking up...');
     const data = await whoisLookup(domain);
-    if (data.error) {
-      setResult(`⚠️ ${data.error}\n\n📋 Cached result:\nRegistrar: ${data.registrar}\nCreated: ${data.created}`);
-    } else {
-      setResult(`✅ Whois for ${data.domain}:\nRegistrar: ${data.registrar}\nCreated: ${data.created}\nExpires: ${data.expires}\nName Servers: ${(data.nameServers||[]).join(', ')}`);
-    }
+    setResult(JSON.stringify(data, null, 2));
     setLoading(false);
   };
-  
   return (
     <div style={{background:'#020617',minHeight:'100vh',color:'#e2e8f0',padding:'2rem',fontFamily:'Inter,sans-serif'}}>
       <h1 style={{color:'#00ff9d',fontFamily:'Orbitron,monospace'}}>🕵️ Whois Lookup</h1>

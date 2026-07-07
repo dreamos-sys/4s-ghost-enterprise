@@ -4,19 +4,13 @@ export default function Network() {
   const [target, setTarget] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  
   const scan = async () => {
     setLoading(true);
     setResult('⏳ Scanning...');
     const data = await scanPort(target);
-    if (data.error) {
-      setResult(`⚠️ ${data.error}\n\n📋 Default scan results:\n${data.ports.map(p => `Port ${p.port}: ${p.status.toUpperCase()}`).join('\n')}`);
-    } else {
-      setResult(`✅ Scan complete for ${data.target}:\n${data.ports.map(p => `Port ${p.port}: ${p.status.toUpperCase()}`).join('\n')}`);
-    }
+    setResult(JSON.stringify(data, null, 2));
     setLoading(false);
   };
-  
   return (
     <div style={{background:'#020617',minHeight:'100vh',color:'#e2e8f0',padding:'2rem',fontFamily:'Inter,sans-serif'}}>
       <h1 style={{color:'#00ff9d',fontFamily:'Orbitron,monospace'}}>🌐 Network Scanner</h1>
