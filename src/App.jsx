@@ -1,24 +1,23 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
-import {
-  Network, Defense, Forensic, AICore,
-  XSSTest, JWTTool, Honeypot, RateLimit,
-  Whois, SSLCheck, DNSRecon, BotDetect
-} from './tools'
+import * as AllTools from './tools'
+
+// Filter komponen yang valid (function/class)
+const toolComponents = Object.keys(AllTools).filter(key => typeof AllTools[key] === 'function')
 
 const tools = [
-  { id: 'network', icon: '🌐', name: 'Network', component: Network },
-  { id: 'defense', icon: '🛡️', name: 'Defense', component: Defense },
-  { id: 'forensic', icon: '🔍', name: 'Forensic', component: Forensic },
-  { id: 'ai', icon: '🤖', name: 'AI Core', component: AICore },
-  { id: 'xss', icon: '💉', name: 'XSS Test', component: XSSTest },
-  { id: 'jwt', icon: '🔐', name: 'JWT Tool', component: JWTTool },
-  { id: 'honeypot', icon: '🍯', name: 'Honeypot', component: Honeypot },
-  { id: 'ratelimit', icon: '⚡', name: 'Rate Limit', component: RateLimit },
-  { id: 'whois', icon: '🕵️', name: 'Whois', component: Whois },
-  { id: 'ssl', icon: '🔒', name: 'SSL Check', component: SSLCheck },
-  { id: 'dns', icon: '📡', name: 'DNS Recon', component: DNSRecon },
-  { id: 'bot', icon: '🤖', name: 'Bot Detect', component: BotDetect }
+  { id: 'network', icon: '🌐', name: 'Network', comp: 'PortScanner' },
+  { id: 'defense', icon: '🛡️', name: 'Defense', comp: 'BotDetector' },
+  { id: 'forensic', icon: '🔍', name: 'Forensic', comp: 'AIDefense' },
+  { id: 'ai', icon: '🤖', name: 'AI Core', comp: 'AIDefense' },
+  { id: 'xss', icon: '💉', name: 'XSS Test', comp: 'XSSFinder' },
+  { id: 'jwt', icon: '🔐', name: 'JWT Tool', comp: 'JWTDecoder' },
+  { id: 'honeypot', icon: '🍯', name: 'Honeypot', comp: 'Honeypot' },
+  { id: 'ratelimit', icon: '⚡', name: 'Rate Limit', comp: 'RateLimiter' },
+  { id: 'whois', icon: '🕵️', name: 'Whois', comp: 'WhoisLookup' },
+  { id: 'ssl', icon: '🔒', name: 'SSL Check', comp: 'SSLChecker' },
+  { id: 'dns', icon: '📡', name: 'DNS Recon', comp: 'DNSRecon' },
+  { id: 'bot', icon: '🤖', name: 'Bot Detect', comp: 'BotDetector' }
 ]
 
 function Dashboard({ user }) {
@@ -31,11 +30,11 @@ function Dashboard({ user }) {
 
   if (page !== 'home') {
     const tool = tools.find(t => t.id === page)
-    const ToolComponent = tool?.component
+    const Component = AllTools[tool?.comp]
     return (
       <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0' }}>
         <button onClick={() => setPage('home')} style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10, padding: '0.5rem 1rem', background: '#0ea5e9', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>← Back</button>
-        {ToolComponent ? <ToolComponent /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><p style={{ color: '#94a3b8' }}>🚧 Tool coming soon</p></div>}
+        {Component ? <Component /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><p style={{ color: '#94a3b8' }}>🚧 Tool sedang diproses</p></div>}
       </div>
     )
   }
@@ -60,7 +59,7 @@ function Dashboard({ user }) {
           ))}
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 3</p>
+        <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 3.1</p>
       </div>
     </div>
   )
