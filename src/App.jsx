@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { supabase } from './lib/supabase'
 
-// Import semua tools (akan disesuaikan dengan path baru)
 import Network from './tools/Network'
 import Defense from './tools/Defense'
 import Forensic from './tools/Forensic'
@@ -56,7 +55,7 @@ function Dashboard({ user }) {
           ))}
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: '3rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 2 ACTIVE</p>
+        <p style={{ textAlign: 'center', marginTop: '3rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 2.1</p>
       </div>
     </div>
   )
