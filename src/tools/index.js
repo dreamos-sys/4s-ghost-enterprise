@@ -1,12 +1,13 @@
-export { default as Network } from './Network';
-export { default as Defense } from './Defense';
-export { default as Forensic } from './Forensic';
-export { default as AICore } from './AICore';
-export { default as XSSTest } from './XSSTest';
-export { default as JWTTool } from './JWTTool';
-export { default as Honeypot } from './Honeypot';
-export { default as RateLimit } from './RateLimit';
-export { default as Whois } from './Whois';
-export { default as SSLCheck } from './SSLCheck';
-export { default as DNSRecon } from './DNSRecon';
-export { default as BotDetect } from './BotDetect';
+// Auto-generated barrel export
+export { default as AICore.jsx } from './AICore.jsx';
+export { default as BotDetect.jsx } from './BotDetect.jsx';
+export { default as DNSRecon.jsx } from './DNSRecon.jsx';
+export { default as Defense.jsx } from './Defense.jsx';
+export { default as Forensic.jsx } from './Forensic.jsx';
+export { default as Honeypot.jsx } from './Honeypot.jsx';
+export { default as JWTTool.jsx } from './JWTTool.jsx';
+export { default as Network.jsx } from './Network.jsx';
+export { default as RateLimit.jsx } from './RateLimit.jsx';
+export { default as SSLCheck.jsx } from './SSLCheck.jsx';
+export { default as Whois.jsx } from './Whois.jsx';
+export { default as XSSTest.jsx } from './XSSTest.jsx';

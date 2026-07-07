@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
-import { Network, Defense, Forensic, AICore, XSSTest, JWTTool, Honeypot, RateLimit, Whois, SSLCheck, DNSRecon, BotDetect } from './tools'
+import * as AllTools from './tools'
 
-const tools = [
-  { id: 'network', icon: '🌐', name: 'Network', comp: Network },
-  { id: 'defense', icon: '🛡️', name: 'Defense', comp: Defense },
-  { id: 'forensic', icon: '🔍', name: 'Forensic', comp: Forensic },
-  { id: 'ai', icon: '🤖', name: 'AI Core', comp: AICore },
-  { id: 'xss', icon: '💉', name: 'XSS Test', comp: XSSTest },
-  { id: 'jwt', icon: '🔐', name: 'JWT Tool', comp: JWTTool },
-  { id: 'honeypot', icon: '🍯', name: 'Honeypot', comp: Honeypot },
-  { id: 'ratelimit', icon: '⚡', name: 'Rate Limit', comp: RateLimit },
-  { id: 'whois', icon: '🕵️', name: 'Whois', comp: Whois },
-  { id: 'ssl', icon: '🔒', name: 'SSL Check', comp: SSLCheck },
-  { id: 'dns', icon: '📡', name: 'DNS Recon', comp: DNSRecon },
-  { id: 'bot', icon: '🤖', name: 'Bot Detect', comp: BotDetect }
+// Filter komponen yang valid
+const toolComponents = Object.keys(AllTools).filter(key => typeof AllTools[key] === 'function')
+
+// Pemetaan tool ke komponen
+const toolsMap = [
+  { id: 'network', icon: '🌐', name: 'Network', comp: 'PortScanner' },
+  { id: 'defense', icon: '🛡️', name: 'Defense', comp: 'BotDetector' },
+  { id: 'forensic', icon: '🔍', name: 'Forensic', comp: 'AIDefense' },
+  { id: 'ai', icon: '🤖', name: 'AI Core', comp: 'AIDefense' },
+  { id: 'xss', icon: '💉', name: 'XSS Test', comp: 'XSSFinder' },
+  { id: 'jwt', icon: '🔐', name: 'JWT Tool', comp: 'JWTDecoder' },
+  { id: 'honeypot', icon: '🍯', name: 'Honeypot', comp: 'Honeypot' },
+  { id: 'ratelimit', icon: '⚡', name: 'Rate Limit', comp: 'RateLimiter' },
+  { id: 'whois', icon: '🕵️', name: 'Whois', comp: 'WhoisLookup' },
+  { id: 'ssl', icon: '🔒', name: 'SSL Check', comp: 'SSLChecker' },
+  { id: 'dns', icon: '📡', name: 'DNS Recon', comp: 'DNSRecon' },
+  { id: 'bot', icon: '🤖', name: 'Bot Detect', comp: 'BotDetector' }
 ]
 
 function Dashboard({ user }) {
@@ -22,12 +26,12 @@ function Dashboard({ user }) {
   const handleLogout = async () => { await supabase.auth.signOut(); window.location.reload() }
 
   if (page !== 'home') {
-    const tool = tools.find(t => t.id === page)
-    const Component = tool?.comp
+    const tool = toolsMap.find(t => t.id === page)
+    const Component = AllTools[tool?.comp]
     return (
       <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0' }}>
         <button onClick={() => setPage('home')} style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10, padding: '0.5rem 1rem', background: '#0ea5e9', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>← Back</button>
-        {Component ? <Component /> : <p>Tool not found</p>}
+        {Component ? <Component /> : <p>🚧 Tool sedang diproses</p>}
       </div>
     )
   }
@@ -43,14 +47,14 @@ function Dashboard({ user }) {
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.6rem' }}>
-          {tools.map(t => (
+          {toolsMap.map(t => (
             <div key={t.id} onClick={() => setPage(t.id)} style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '1rem 0.5rem', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}>
               <div style={{ fontSize: '1.8rem', marginBottom: '0.3rem' }}>{t.icon}</div>
               <div style={{ fontSize: '0.7rem', fontWeight: 700 }}>{t.name}</div>
             </div>
           ))}
         </div>
-        <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 4</p>
+        <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 6</p>
       </div>
     </div>
   )
