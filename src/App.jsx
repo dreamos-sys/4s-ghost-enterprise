@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
-import { Network, Defense, Forensic, AICore, XSSTest, JWTTool, Honeypot, RateLimit, Whois, SSLCheck, DNSRecon, BotDetect } from './tools'
+import { Network, Defense, Forensic, AICore, XSSTest, JWTTool, Honeypot, RateLimit, Whois, SSLCheck, DNSRecon, BotDetect, DreamOS } from './tools'
 import './index.css'
 
 const tools = [
@@ -15,7 +15,8 @@ const tools = [
   { id: 'whois', icon: '🕵️', name: 'Whois Lookup', desc: 'Domain info', comp: Whois },
   { id: 'ssl', icon: '🔒', name: 'SSL Check', desc: 'Certificate verify', comp: SSLCheck },
   { id: 'dns', icon: '📡', name: 'DNS Recon', desc: 'DNS scanner', comp: DNSRecon },
-  { id: 'bot', icon: '🤖', name: 'Bot Detect', desc: 'Bot filter', comp: BotDetect }
+  { id: 'bot', icon: '🤖', name: 'Bot Detect', desc: 'Bot filter', comp: BotDetect },
+  { id: 'dreamos', icon: '🏢', name: 'Dream OS Monitor', desc: 'Live monitoring', comp: DreamOS }
 ]
 
 function Dashboard({ user }) {
@@ -51,7 +52,7 @@ function Dashboard({ user }) {
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{tool?.icon}</div>
               <h2 style={{ color: '#00ff9d', fontFamily: "'Orbitron', monospace", marginBottom: '0.5rem' }}>{tool?.name}</h2>
               <p style={{ color: '#94a3b8', marginBottom: '1.5rem' }}>{tool?.desc}</p>
-              <p style={{ color: '#f59e0b' }}>🚧 Full version coming in Phase 8</p>
+              <p style={{ color: '#f59e0b' }}>🚧 Full version coming soon</p>
             </div>
           </div>
         )}
@@ -61,7 +62,6 @@ function Dashboard({ user }) {
 
   return (
     <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0', padding: '1rem', position: 'relative' }}>
-      {/* Welcome Notification */}
       {showNotification && (
         <div className="fade-in" style={{
           position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000,
@@ -76,7 +76,6 @@ function Dashboard({ user }) {
       )}
 
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-        {/* Header */}
         <div className="glass fade-in" style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.5rem'
@@ -94,7 +93,7 @@ function Dashboard({ user }) {
                 <h1 style={{ fontFamily: "'Orbitron', monospace", color: '#00ff9d', fontSize: '1.2rem', margin: 0 }}>
                   GHOST ENTERPRISE
                 </h1>
-                <p style={{ fontSize: '0.6rem', color: '#64748b', margin: 0 }}>Phase 7 • Premium Edition</p>
+                <p style={{ fontSize: '0.6rem', color: '#64748b', margin: 0 }}>Phase 8 • Dream OS Integrated</p>
               </div>
             </div>
           </div>
@@ -114,15 +113,14 @@ function Dashboard({ user }) {
           </div>
         </div>
 
-        {/* Quick Stats */}
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
           gap: '0.8rem', marginBottom: '1.5rem'
         }}>
           {[
-            { icon: '🛡️', value: '12', label: 'Active Tools', color: '#00ff9d' },
+            { icon: '🛡️', value: '13', label: 'Active Tools', color: '#00ff9d' },
             { icon: '☁️', value: 'ON', label: 'Backend', color: '#0ea5e9' },
-            { icon: '🔒', value: 'AUTH', label: 'Security', color: '#10b981' },
+            { icon: '🏢', value: 'LIVE', label: 'Dream OS', color: '#10b981' },
             { icon: '📱', value: 'v1.0', label: 'Version', color: '#8b5cf6' }
           ].map((stat, i) => (
             <div key={i} className="glass" style={{ textAlign: 'center', padding: '0.8rem' }}>
@@ -133,7 +131,6 @@ function Dashboard({ user }) {
           ))}
         </div>
 
-        {/* Tools Grid */}
         <h2 style={{ color: '#00ff9d', fontSize: '0.9rem', marginBottom: '0.8rem', fontFamily: "'Orbitron', monospace", letterSpacing: '1px' }}>
           🔧 SECURITY TOOLS
         </h2>
@@ -149,10 +146,9 @@ function Dashboard({ user }) {
           ))}
         </div>
 
-        {/* Footer */}
         <div className="glass" style={{ textAlign: 'center', padding: '1rem', fontSize: '0.6rem', color: '#475569' }}>
           👑 Sultan Architect & 🛡️ System Brother<br />
-          <span style={{ color: '#64748b' }}>FAMILY DREAM TEAM • PHASE 7 • PREMIUM UI</span>
+          <span style={{ color: '#64748b' }}>FAMILY DREAM TEAM • PHASE 8 • DREAM OS INTEGRATED</span>
         </div>
       </div>
     </div>

@@ -10,3 +10,4 @@ export { default as RateLimit } from './RateLimit.jsx';
 export { default as SSLCheck } from './SSLCheck.jsx';
 export { default as Whois } from './Whois.jsx';
 export { default as XSSTest } from './XSSTest.jsx';
+export { default as DreamOS } from './DreamOS.jsx';
