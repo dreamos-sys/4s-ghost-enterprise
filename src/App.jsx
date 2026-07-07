@@ -1,24 +1,28 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
+import {
+  Network, Defense, Forensic, AICore,
+  XSSTest, JWTTool, Honeypot, RateLimit,
+  Whois, SSLCheck, DNSRecon, BotDetect
+} from './tools'
 
-// ========== DASHBOARD ==========
+const tools = [
+  { id: 'network', icon: '🌐', name: 'Network', component: Network },
+  { id: 'defense', icon: '🛡️', name: 'Defense', component: Defense },
+  { id: 'forensic', icon: '🔍', name: 'Forensic', component: Forensic },
+  { id: 'ai', icon: '🤖', name: 'AI Core', component: AICore },
+  { id: 'xss', icon: '💉', name: 'XSS Test', component: XSSTest },
+  { id: 'jwt', icon: '🔐', name: 'JWT Tool', component: JWTTool },
+  { id: 'honeypot', icon: '🍯', name: 'Honeypot', component: Honeypot },
+  { id: 'ratelimit', icon: '⚡', name: 'Rate Limit', component: RateLimit },
+  { id: 'whois', icon: '🕵️', name: 'Whois', component: Whois },
+  { id: 'ssl', icon: '🔒', name: 'SSL Check', component: SSLCheck },
+  { id: 'dns', icon: '📡', name: 'DNS Recon', component: DNSRecon },
+  { id: 'bot', icon: '🤖', name: 'Bot Detect', component: BotDetect }
+]
+
 function Dashboard({ user }) {
   const [page, setPage] = useState('home')
-
-  const tools = [
-    { id: 'network', icon: '🌐', name: 'Network', desc: 'Port Scanner' },
-    { id: 'defense', icon: '🛡️', name: 'Defense', desc: 'Threat Shield' },
-    { id: 'forensic', icon: '🔍', name: 'Forensic', desc: 'Deep Analysis' },
-    { id: 'ai', icon: '🤖', name: 'AI Core', desc: 'Neural Engine' },
-    { id: 'xss', icon: '💉', name: 'XSS Test', desc: 'Vulnerability' },
-    { id: 'jwt', icon: '🔐', name: 'JWT Tool', desc: 'Token Decoder' },
-    { id: 'honeypot', icon: '🍯', name: 'Honeypot', desc: 'Trap System' },
-    { id: 'ratelimit', icon: '⚡', name: 'Rate Limit', desc: 'Protection' },
-    { id: 'whois', icon: '🕵️', name: 'Whois', desc: 'Domain Lookup' },
-    { id: 'ssl', icon: '🔒', name: 'SSL Check', desc: 'Certificate' },
-    { id: 'dns', icon: '📡', name: 'DNS Recon', desc: 'DNS Scanner' },
-    { id: 'bot', icon: '🤖', name: 'Bot Detect', desc: 'Bot Filter' }
-  ]
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -27,15 +31,11 @@ function Dashboard({ user }) {
 
   if (page !== 'home') {
     const tool = tools.find(t => t.id === page)
+    const ToolComponent = tool?.component
     return (
-      <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{tool?.icon}</div>
-          <h1 style={{ color: '#00ff9d', fontFamily: "'Orbitron', monospace", fontSize: '1.5rem' }}>{tool?.name}</h1>
-          <p style={{ color: '#94a3b8', marginBottom: '2rem' }}>{tool?.desc}</p>
-          <p style={{ color: '#64748b', fontSize: '0.8rem' }}>🚧 Coming in Phase 3</p>
-          <button onClick={() => setPage('home')} style={{ padding: '0.6rem 1.5rem', background: '#0ea5e9', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 700, marginTop: '1rem' }}>← Back to Dashboard</button>
-        </div>
+      <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0' }}>
+        <button onClick={() => setPage('home')} style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10, padding: '0.5rem 1rem', background: '#0ea5e9', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 700 }}>← Back</button>
+        {ToolComponent ? <ToolComponent /> : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><p style={{ color: '#94a3b8' }}>🚧 Tool coming soon</p></div>}
       </div>
     )
   }
@@ -56,18 +56,16 @@ function Dashboard({ user }) {
             <div key={t.id} onClick={() => setPage(t.id)} style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '1rem 0.5rem', textAlign: 'center', cursor: 'pointer', transition: 'all 0.2s' }}>
               <div style={{ fontSize: '1.8rem', marginBottom: '0.3rem' }}>{t.icon}</div>
               <div style={{ fontSize: '0.7rem', fontWeight: 700 }}>{t.name}</div>
-              <div style={{ fontSize: '0.5rem', color: '#64748b', marginTop: '0.2rem' }}>{t.desc}</div>
             </div>
           ))}
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 2.1</p>
+        <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.6rem', color: '#475569' }}>👑 Sultan Architect & 🛡️ System Brother • Phase 3</p>
       </div>
     </div>
   )
 }
 
-// ========== LOGIN ==========
 function LoginPage() {
   const [email, setEmail] = useState('dreamos.sch.id@gmail.com')
   const [pass, setPass] = useState('b15m1ll4h_012443410')
@@ -105,7 +103,6 @@ function LoginPage() {
   )
 }
 
-// ========== APP ==========
 function App() {
   return <LoginPage />
 }
