@@ -2,44 +2,36 @@ const API_BASE = 'https://4s-ghost-api.dreamos-sys.workers.dev';
 
 export async function scanPort(target) {
   try {
-    const res = await fetch(`${API_BASE}/api/scanner/port?target=${encodeURIComponent(target)}`);
-    const data = await res.json();
-    return data;
+    const res = await fetch(`${API_BASE}/api/scanner/port?target=${target}`);
+    return await res.json();
   } catch(e) {
-    return { error: 'Backend offline - using fallback', ports: [
-      { port: 22, status: 'filtered' },
-      { port: 80, status: 'open' },
-      { port: 443, status: 'open' }
-    ]};
+    return { error: 'Backend offline', ports: [{port:80,status:'open'}] };
   }
 }
 
 export async function whoisLookup(domain) {
   try {
-    const res = await fetch(`${API_BASE}/api/whois?domain=${encodeURIComponent(domain)}`);
-    const data = await res.json();
-    return data;
+    const res = await fetch(`${API_BASE}/api/whois?domain=${domain}`);
+    return await res.json();
   } catch(e) {
-    return { error: 'Backend offline - using fallback', domain, registrar: 'Unknown' };
+    return { error: 'Backend offline', domain };
   }
 }
 
 export async function dnsScan(domain) {
   try {
-    const res = await fetch(`${API_BASE}/api/dns?domain=${encodeURIComponent(domain)}`);
-    const data = await res.json();
-    return data;
+    const res = await fetch(`${API_BASE}/api/dns?domain=${domain}`);
+    return await res.json();
   } catch(e) {
-    return { error: 'Backend offline - using fallback', domain, records: [] };
+    return { error: 'Backend offline', domain };
   }
 }
 
 export async function checkSSL(domain) {
   try {
-    const res = await fetch(`${API_BASE}/api/ssl?domain=${encodeURIComponent(domain)}`);
-    const data = await res.json();
-    return data;
+    const res = await fetch(`${API_BASE}/api/ssl?domain=${domain}`);
+    return await res.json();
   } catch(e) {
-    return { error: 'Backend offline - using fallback', domain, grade: 'N/A' };
+    return { error: 'Backend offline', domain };
   }
 }
