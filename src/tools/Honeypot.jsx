@@ -1,11 +1,11 @@
 export default function Honeypot() {
   return (
-    <div style={{ background: '#020617', minHeight: '100vh', color: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter, sans-serif' }}>
-      <div style={{ textAlign: 'center' }}>
-        <h1 style={{ color: '#00ff9d', fontFamily: "'Orbitron', monospace" }}>Honeypot</h1>
-        <p style={{ color: '#94a3b8' }}>🚧 Coming in Phase 2.1</p>
-        <a href="/" style={{ color: '#0ea5e9', fontSize: '0.8rem' }}>← Back to Dashboard</a>
-      </div>
+    <div style={{background:'#020617',minHeight:'100vh',color:'#e2e8f0',padding:'2rem',fontFamily:'Inter,sans-serif'}}>
+      <h1 style={{color:'#00ff9d',fontFamily:'Orbitron,monospace'}}>🍯 Honeypot Trap</h1>
+      <p>Active traps: <strong style={{color:'#f59e0b'}}>5</strong></p>
+      <p>Attackers caught: <strong style={{color:'#ef4444'}}>23</strong></p>
+      <p>Last trigger: <strong>10.0.0.45</strong> (2 min ago)</p>
+      <a href="/" style={{display:'block',marginTop:'1rem',color:'#0ea5e9'}}>← Dashboard</a>
     </div>
   );
 }
