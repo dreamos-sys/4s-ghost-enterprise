@@ -12,12 +12,12 @@ export default function Dashboard() {
     { id: 2, icon: '🛡️', name: 'Defense Shield', desc: 'Threat protection', color: '#0ea5e9', route: '/tools/Defense', critical: true },
     { id: 3, icon: '⚡', name: 'Rate Limiter', desc: 'Anti-DDoS', color: '#f59e0b', route: '/tools/RateLimit', critical: true },
     { id: 4, icon: '🤖', name: 'Bot Detect', desc: 'Bot filter', color: '#8b5cf6', route: '/tools/BotDetect', critical: true },
-    { id: 5, icon: '', name: 'Dream OS', desc: 'Live monitoring', color: '#00ff9d', route: '/tools/DreamOS', critical: true },
+    { id: 5, icon: '🏢', name: 'Dream OS', desc: 'Live monitoring', color: '#00ff9d', route: '/tools/DreamOS', critical: true },
     { id: 6, icon: '🌐', name: 'Network Scanner', desc: 'Port scanning', color: '#00ff9d', route: '/tools/Network' },
     { id: 7, icon: '🔍', name: 'Forensic', desc: 'Deep analysis', color: '#f59e0b', route: '/tools/Forensic' },
     { id: 8, icon: '💉', name: 'XSS Scanner', desc: 'Vulnerability test', color: '#ef4444', route: '/tools/XSSTest' },
-    { id: 9, icon: '', name: 'JWT Decoder', desc: 'Token analyzer', color: '#8b5cf6', route: '/tools/JWTTool' },
-    { id: 10, icon: '', name: 'Honeypot', desc: 'Trap system', color: '#f59e0b', route: '/tools/Honeypot' },
+    { id: 9, icon: '🔐', name: 'JWT Decoder', desc: 'Token analyzer', color: '#8b5cf6', route: '/tools/JWTTool' },
+    { id: 10, icon: '🍯', name: 'Honeypot', desc: 'Trap system', color: '#f59e0b', route: '/tools/Honeypot' },
     { id: 11, icon: '🕵️', name: 'Whois Lookup', desc: 'Domain info', color: '#0ea5e9', route: '/tools/Whois' },
     { id: 12, icon: '🔒', name: 'SSL Check', desc: 'Certificate verify', color: '#10b981', route: '/tools/SSLCheck' },
     { id: 13, icon: '📡', name: 'DNS Recon', desc: 'DNS scanner', color: '#0ea5e9', route: '/tools/DNSRecon' },
@@ -49,6 +49,9 @@ export default function Dashboard() {
   }, []);
 
   const handleToolClick = (tool) => {
+    // ALERT INI AKAN MEMASTIKAN KLIK TERDAFTAR
+    alert(`🖱️ TOOL DIKLIK!\n\nNama: ${tool.name}\nRoute: ${tool.route}`);
+    
     console.log('🖱️ TOOL CLICKED:', tool.name, '| ROUTE:', tool.route);
     if (typeof window.navigateTool === 'function') { 
       window.navigateTool(tool.route); 
