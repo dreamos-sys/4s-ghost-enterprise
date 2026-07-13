@@ -7,24 +7,23 @@ export default function Dashboard() {
   const [systemStatus, setSystemStatus] = useState('CHECKING...');
   const [activeToolsCount, setActiveToolsCount] = useState(0);
 
-  // Daftar tools dengan ROUTE yang mengarah ke file asli yang sudah My Sis buat
-  // ⚠️ PENTING: Sesuaikan nilai 'route' dengan nama file/folder asli di project My Sis!
+  // Daftar tools dengan ROUTE yang SESUAI dengan App.jsx
   const tools = [
-    { id: 1, icon: '🔴', name: 'IDS Monitor', desc: 'Intrusion detection', color: '#ef4444', route: '/ids-monitor', critical: true },
-    { id: 2, icon: '🛡️', name: 'Defense Shield', desc: 'Threat protection', color: '#0ea5e9', route: '/defense-shield', critical: true },
-    { id: 3, icon: '⚡', name: 'Rate Limiter', desc: 'Anti-DDoS', color: '#f59e0b', route: '/rate-limiter', critical: true },
-    { id: 4, icon: '🤖', name: 'Bot Detect', desc: 'Bot filter', color: '#8b5cf6', route: '/bot-detect', critical: true },
-    { id: 5, icon: '🏢', name: 'Dream OS Monitor', desc: 'Live monitoring', color: '#00ff9d', route: '/dream-os-monitor', critical: true },
-    { id: 6, icon: '🌐', name: 'Network Scanner', desc: 'Port scanning', color: '#00ff9d', route: '/network-scanner' },
-    { id: 7, icon: '🔍', name: 'Forensic', desc: 'Deep analysis', color: '#f59e0b', route: '/forensic' },
-    { id: 8, icon: '💉', name: 'XSS Scanner', desc: 'Vulnerability test', color: '#ef4444', route: '/xss-scanner' },
-    { id: 9, icon: '🔐', name: 'JWT Decoder', desc: 'Token analyzer', color: '#8b5cf6', route: '/jwt-decoder' },
-    { id: 10, icon: '🍯', name: 'Honeypot', desc: 'Trap system', color: '#f59e0b', route: '/honeypot' },
-    { id: 11, icon: '🕵️', name: 'Whois Lookup', desc: 'Domain info', color: '#0ea5e9', route: '/whois' },
-    { id: 12, icon: '🔒', name: 'SSL Check', desc: 'Certificate verify', color: '#10b981', route: '/ssl-check' },
-    { id: 13, icon: '📡', name: 'DNS Recon', desc: 'DNS scanner', color: '#0ea5e9', route: '/dns-recon' },
-    { id: 14, icon: '⚡', name: 'Response', desc: 'Auto defense', color: '#f59e0b', route: '/response' },
-    { id: 15, icon: '🛡️', name: 'Security Audit', desc: 'System audit', color: '#0ea5e9', route: '/security-audit' },
+    { id: 1, icon: '🔴', name: 'IDS Monitor', desc: 'Intrusion detection', color: '#ef4444', route: '/tools/IDS', critical: true },
+    { id: 2, icon: '🛡️', name: 'Defense Shield', desc: 'Threat protection', color: '#0ea5e9', route: '/tools/Defense', critical: true },
+    { id: 3, icon: '⚡', name: 'Rate Limiter', desc: 'Anti-DDoS', color: '#f59e0b', route: '/tools/RateLimit', critical: true },
+    { id: 4, icon: '🤖', name: 'Bot Detect', desc: 'Bot filter', color: '#8b5cf6', route: '/tools/BotDetect', critical: true },
+    { id: 5, icon: '', name: 'Dream OS', desc: 'Live monitoring', color: '#00ff9d', route: '/tools/DreamOS', critical: true },
+    { id: 6, icon: '🌐', name: 'Network Scanner', desc: 'Port scanning', color: '#00ff9d', route: '/tools/Network' },
+    { id: 7, icon: '🔍', name: 'Forensic', desc: 'Deep analysis', color: '#f59e0b', route: '/tools/Forensic' },
+    { id: 8, icon: '💉', name: 'XSS Scanner', desc: 'Vulnerability test', color: '#ef4444', route: '/tools/XSSTest' },
+    { id: 9, icon: '', name: 'JWT Decoder', desc: 'Token analyzer', color: '#8b5cf6', route: '/tools/JWTTool' },
+    { id: 10, icon: '', name: 'Honeypot', desc: 'Trap system', color: '#f59e0b', route: '/tools/Honeypot' },
+    { id: 11, icon: '🕵️', name: 'Whois Lookup', desc: 'Domain info', color: '#0ea5e9', route: '/tools/Whois' },
+    { id: 12, icon: '🔒', name: 'SSL Check', desc: 'Certificate verify', color: '#10b981', route: '/tools/SSLCheck' },
+    { id: 13, icon: '📡', name: 'DNS Recon', desc: 'DNS scanner', color: '#0ea5e9', route: '/tools/DNSRecon' },
+    { id: 14, icon: '⚡', name: 'Response', desc: 'Auto defense', color: '#f59e0b', route: '/tools/ResponseEngine' },
+    { id: 15, icon: '🛡️', name: 'Security Audit', desc: 'System audit', color: '#0ea5e9', route: '/tools/AICore' },
   ];
 
   useEffect(() => {
@@ -34,14 +33,11 @@ export default function Dashboard() {
     
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     
-    // REAL HEALTH CHECK: Simulasi pengecekan status sistem
     const runHealthCheck = async () => {
       try {
-        // Cek koneksi ke Supabase sebagai indikator sistem backend
         const { error } = await supabase.from('users').select('count', { count: 'exact', head: true });
         if (!error) {
           setSystemStatus('SECURE & ONLINE');
-          // Hitung tools yang critical dan siap
           const criticalReady = tools.filter(t => t.critical).length;
           setActiveToolsCount(criticalReady);
         } else {
@@ -53,7 +49,7 @@ export default function Dashboard() {
     };
 
     runHealthCheck();
-    const healthTimer = setInterval(runHealthCheck, 30000); // Cek setiap 30 detik
+    const healthTimer = setInterval(runHealthCheck, 30000);
 
     return () => {
       clearInterval(timer);
@@ -61,11 +57,12 @@ export default function Dashboard() {
     };
   }, []);
 
-  // Fungsi routing ke tool asli
   const handleToolClick = (tool) => {
-    // Jika menggunakan React Router, ganti dengan: navigate(tool.route);
-    // Untuk saat ini, kita gunakan window.location.href
-    if (window.navigateTool) { window.navigateTool(tool.route); } else { window.location.href = tool.route; }
+    if (window.navigateTool) { 
+      window.navigateTool(tool.route); 
+    } else { 
+      window.location.href = tool.route; 
+    }
   };
 
   const handleLogout = async () => {
@@ -177,7 +174,7 @@ export default function Dashboard() {
         <button className="logout-btn" onClick={handleLogout}>LOGOUT</button>
       </div>
 
-      {/* STATS (DINAMIS & REAL) */}
+      {/* STATS */}
       <div className="stats">
         <div className="stat">
           <div className="stat-icon">🛡️</div>
@@ -203,7 +200,7 @@ export default function Dashboard() {
 
       {/* TOOLS */}
       <div>
-        <h2 className="section-title">🔧 SECURITY TOOLS</h2>
+        <h2 className="section-title"> SECURITY TOOLS</h2>
         <div className="tools-grid">
           {tools.map(tool => (
             <div 
@@ -225,7 +222,7 @@ export default function Dashboard() {
 
       {/* FOOTER */}
       <div className="footer">
-        <p>👑 Sultan Architect & 🛡️ System Brother</p>
+        <p>👑 Sultan Architect & ️ System Brother</p>
         <p style={{marginTop: '0.3rem'}}>FAMILY DREAM TEAM • PHASE 10 • SELF-DEFENSE READY</p>
       </div>
     </div>
