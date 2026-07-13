@@ -1,1 +1,7 @@
 .env.local
+
+# Backup files
+*.tar.gz
+
+# Env files (jangan push)
+.env.local
