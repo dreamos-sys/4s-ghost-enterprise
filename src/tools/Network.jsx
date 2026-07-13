@@ -13,7 +13,7 @@ export default function Network({ onBack }) {
     setLoading(true);
     setError(null);
     
-    const workerUrl = import.meta.env.VITE_CLOUDFLARE_WORKER_URL;
+    const workerUrl = 'https://4s-ghost-api.afumum234.workers.dev';
     
     if (workerUrl) {
       try {

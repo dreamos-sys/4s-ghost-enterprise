@@ -1,37 +1,26 @@
-const API_BASE = 'https://4s-ghost-api.dreamos-sys.workers.dev';
+const API_BASE = import.meta.env.VITE_CLOUDFLARE_WORKER_URL || 'http://localhost:3001';
+
+export async function fetchStatus() {
+  const res = await fetch(`${API_BASE}/api/status`);
+  return res.json();
+}
+
+export async function fetchWhois(domain) {
+  const res = await fetch(`${API_BASE}/api/whois?domain=${domain}`);
+  return res.json();
+}
 
 export async function scanPort(target) {
-  try {
-    const res = await fetch(`${API_BASE}/api/scanner/port?target=${target}`);
-    return await res.json();
-  } catch(e) {
-    return { error: 'Backend offline', ports: [{port:80,status:'open'}] };
-  }
+  const res = await fetch(`${API_BASE}/api/scanner/port?target=${target}`);
+  return res.json();
 }
 
-export async function whoisLookup(domain) {
-  try {
-    const res = await fetch(`${API_BASE}/api/whois?domain=${domain}`);
-    return await res.json();
-  } catch(e) {
-    return { error: 'Backend offline', domain };
-  }
+export async function fetchDNS(domain) {
+  const res = await fetch(`${API_BASE}/api/dns?domain=${domain}`);
+  return res.json();
 }
 
-export async function dnsScan(domain) {
-  try {
-    const res = await fetch(`${API_BASE}/api/dns?domain=${domain}`);
-    return await res.json();
-  } catch(e) {
-    return { error: 'Backend offline', domain };
-  }
-}
-
-export async function checkSSL(domain) {
-  try {
-    const res = await fetch(`${API_BASE}/api/ssl?domain=${domain}`);
-    return await res.json();
-  } catch(e) {
-    return { error: 'Backend offline', domain };
-  }
+export async function fetchSSL(domain) {
+  const res = await fetch(`${API_BASE}/api/ssl?domain=${domain}`);
+  return res.json();
 }

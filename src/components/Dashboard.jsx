@@ -50,8 +50,8 @@ export default function Dashboard() {
 
   const handleToolClick = (tool) => {
     // ALERT INI AKAN MEMASTIKAN KLIK TERDAFTAR
-    alert(`🖱️ TOOL DIKLIK!\n\nNama: ${tool.name}\nRoute: ${tool.route}`);
-    
+    if (import.meta.env.DEV) { console.log("🖱️ TOOL CLICKED:", tool.name, "| ROUTE:", tool.route); }
+    if (import.meta.env.DEV) { console.log("🖱️ TOOL CLICKED:", tool.name, "| ROUTE:", tool.route); }
     console.log('🖱️ TOOL CLICKED:', tool.name, '| ROUTE:', tool.route);
     if (typeof window.navigateTool === 'function') { 
       window.navigateTool(tool.route); 
@@ -60,7 +60,6 @@ export default function Dashboard() {
       window.location.href = tool.route; 
     }
   };
-
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = '/';

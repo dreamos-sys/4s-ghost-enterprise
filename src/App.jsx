@@ -58,6 +58,15 @@ function App() {
 
     return () => subscription.unsubscribe();
   }, []);
+  useEffect(() => {
+    const handlePopState = () => {
+      setIsTransitioning(true);
+      setCurrentRoute(window.location.pathname);
+      setTimeout(() => setIsTransitioning(false), 100);
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   window.navigateTool = (route) => {
     setIsTransitioning(true);
@@ -67,13 +76,7 @@ function App() {
     setTimeout(() => setIsTransitioning(false), 100);
   };
 
-  window.addEventListener('popstate', () => {
     setIsTransitioning(true);
-    setCurrentRoute(window.location.pathname);
-    setTimeout(() => setIsTransitioning(false), 100);
-  });
-
-  // Loading screen dengan background gelap
   if (isLoading) {
     return (
       <div style={{ 
