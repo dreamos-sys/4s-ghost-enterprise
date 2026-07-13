@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
+import Login from './components/Login'; // <-- IMPORT HALAMAN LOGIN
+import { supabase } from './lib/supabase';
 
-// Import tools (Pastikan nama file sesuai dengan yang ada di folder src/tools/)
-// Jika ada yang error "Module not found", hapus baris import-nya sementara
+// Import tools
 import IDS from './tools/IDS.jsx';
 import Defense from './tools/Defense.jsx';
 import RateLimit from './tools/RateLimit.jsx';
@@ -39,18 +40,52 @@ const toolComponents = {
 
 function App() {
   const [currentRoute, setCurrentRoute] = useState('/');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fungsi ini akan dipanggil oleh Dashboard saat tool diklik
+  // 1. CEK STATUS LOGIN SAAT APLIKASI DIMULAI
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+      setIsLoading(false);
+    };
+
+    checkSession();
+
+    // 2. DENGARKAN PERUBAHAN STATUS AUTH (LOGIN/LOGOUT) REAL-TIME
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Fungsi navigasi internal
   window.navigateTool = (route) => {
     setCurrentRoute(route);
     window.history.pushState({}, '', route);
   };
 
-  // Handle browser back/forward button
   window.addEventListener('popstate', () => {
     setCurrentRoute(window.location.pathname);
   });
 
+  // Tampilkan loading screen sambil cek session
+  if (isLoading) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00ff9d', fontFamily: 'Courier New, monospace' }}>
+        <div>INITIALIZING SYSTEM SECURITY...</div>
+      </div>
+    );
+  }
+
+  // 3. JIKA BELUM LOGIN, PAKSA TAMPILKAN HALAMAN LOGIN
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
+  // 4. JIKA SUDAH LOGIN, TAMPILKAN DASHBOARD ATAU TOOLS
   const ToolComponent = toolComponents[currentRoute];
 
   if (ToolComponent) {
