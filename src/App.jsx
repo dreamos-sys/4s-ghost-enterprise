@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
-import Login from './components/Login'; // <-- IMPORT HALAMAN LOGIN
+import Login from './components/Login';
 import { supabase } from './lib/supabase';
 
 // Import tools
@@ -43,17 +43,14 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 1. CEK STATUS LOGIN SAAT APLIKASI DIMULAI
   useEffect(() => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setIsAuthenticated(!!session);
       setIsLoading(false);
     };
-
     checkSession();
 
-    // 2. DENGARKAN PERUBAHAN STATUS AUTH (LOGIN/LOGOUT) REAL-TIME
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
     });
@@ -61,17 +58,18 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Fungsi navigasi internal
+  // Definisikan fungsi navigasi secara global dengan LOG
   window.navigateTool = (route) => {
+    console.log('🚀 NAVIGATING TO:', route);
     setCurrentRoute(route);
     window.history.pushState({}, '', route);
   };
 
   window.addEventListener('popstate', () => {
+    console.log('⬅️ BACK BUTTON PRESSED. Current path:', window.location.pathname);
     setCurrentRoute(window.location.pathname);
   });
 
-  // Tampilkan loading screen sambil cek session
   if (isLoading) {
     return (
       <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00ff9d', fontFamily: 'Courier New, monospace' }}>
@@ -80,12 +78,10 @@ function App() {
     );
   }
 
-  // 3. JIKA BELUM LOGIN, PAKSA TAMPILKAN HALAMAN LOGIN
   if (!isAuthenticated) {
     return <Login />;
   }
 
-  // 4. JIKA SUDAH LOGIN, TAMPILKAN DASHBOARD ATAU TOOLS
   const ToolComponent = toolComponents[currentRoute];
 
   if (ToolComponent) {
