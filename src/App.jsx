@@ -42,6 +42,7 @@ function App() {
   const [currentRoute, setCurrentRoute] = useState('/');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -58,22 +59,38 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Definisikan fungsi navigasi secara global dengan LOG
   window.navigateTool = (route) => {
-    console.log('🚀 NAVIGATING TO:', route);
+    setIsTransitioning(true);
     setCurrentRoute(route);
     window.history.pushState({}, '', route);
+    // Hilangkan transitioning setelah render selesai
+    setTimeout(() => setIsTransitioning(false), 100);
   };
 
   window.addEventListener('popstate', () => {
-    console.log('⬅️ BACK BUTTON PRESSED. Current path:', window.location.pathname);
+    setIsTransitioning(true);
     setCurrentRoute(window.location.pathname);
+    setTimeout(() => setIsTransitioning(false), 100);
   });
 
+  // Loading screen dengan background gelap
   if (isLoading) {
     return (
-      <div style={{ minHeight: '100vh', background: '#050505', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00ff9d', fontFamily: 'Courier New, monospace' }}>
-        <div>INITIALIZING SYSTEM SECURITY...</div>
+      <div style={{ 
+        minHeight: '100vh', 
+        background: '#050505', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        color: '#00ff9d', 
+        fontFamily: 'Courier New, monospace',
+        fontSize: '0.9rem'
+      }}>
+        <div style={{textAlign: 'center'}}>
+          <div style={{fontSize: '2rem', marginBottom: '1rem'}}>️</div>
+          <div>INITIALIZING SYSTEM SECURITY...</div>
+          <div style={{fontSize: '0.7rem', color: '#00ff9d88', marginTop: '0.5rem'}}>Loading modules</div>
+        </div>
       </div>
     );
   }
@@ -85,10 +102,38 @@ function App() {
   const ToolComponent = toolComponents[currentRoute];
 
   if (ToolComponent) {
-    return <ToolComponent onBack={() => window.navigateTool('/')} />;
+    return (
+      <div style={{
+        animation: isTransitioning ? 'fadeIn 0.3s ease' : 'none',
+        minHeight: '100vh',
+        background: '#050505'
+      }}>
+        <style>{`
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+        `}</style>
+        <ToolComponent onBack={() => window.navigateTool('/')} />
+      </div>
+    );
   }
 
-  return <Dashboard />;
+  return (
+    <div style={{
+      animation: 'fadeIn 0.3s ease',
+      minHeight: '100vh',
+      background: '#050505'
+    }}>
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+      <Dashboard />
+    </div>
+  );
 }
 
 export default App;
