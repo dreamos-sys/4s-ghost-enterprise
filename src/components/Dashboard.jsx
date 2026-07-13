@@ -65,7 +65,7 @@ export default function Dashboard() {
   const handleToolClick = (tool) => {
     // Jika menggunakan React Router, ganti dengan: navigate(tool.route);
     // Untuk saat ini, kita gunakan window.location.href
-    window.location.href = tool.route;
+    if (window.navigateTool) { window.navigateTool(tool.route); } else { window.location.href = tool.route; }
   };
 
   const handleLogout = async () => {
