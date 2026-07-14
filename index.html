@@ -4,34 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#050505" />
-    <meta name="background-color" content="#050505" />
     <title>4S GHOST • Enterprise</title>
     <style>
-      /* PAKSA BACKGROUND GELAP SEJAK DOKUMEN DIMUAT */
       html, body, #root {
         margin: 0;
         padding: 0;
         min-height: 100vh;
         background-color: #050505 !important;
-        background: #050505 !important;
-      }
-      /* LOADING SCREEN SAAT APLIKASI MASIH LOAD */
-      body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: #050505;
-        z-index: 99999;
-        pointer-events: none;
-        animation: fadeOut 0.5s ease 0.5s forwards;
-      }
-      @keyframes fadeOut {
-        to { opacity: 0; visibility: hidden; }
       }
     </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="color:#00ff9d;font-family:monospace;text-align:center;padding-top:50vh;">
+        LOADING...
+      </div>
+    </div>
+    <script>
+      // Tangkap error global
+      window.onerror = function(msg, url, line) {
+        document.getElementById('root').innerHTML = 
+          '<div style="color:red;font-family:monospace;padding:20px;">' +
+          '<h2>ERROR DETECTED</h2>' +
+          '<p><b>Message:</b> ' + msg + '</p>' +
+          '<p><b>File:</b> ' + url + '</p>' +
+          '<p><b>Line:</b> ' + line + '</p>' +
+          '</div>';
+      };
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
