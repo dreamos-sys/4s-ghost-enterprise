@@ -246,3 +246,4 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
           to { opacity: 1; }
         }
       `}),(0,z.jsx)(ga,{})]})}document.documentElement.style.backgroundColor=`#050505`,document.body.style.backgroundColor=`#050505`,document.body.style.margin=`0`,document.body.style.padding=`0`,(0,u.createRoot)(document.getElementById(`root`)).render((0,z.jsx)(l.StrictMode,{children:(0,z.jsx)(La,{})}));
+//# sourceMappingURL=index-DSCeaBLt.js.map
