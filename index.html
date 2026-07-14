@@ -16,17 +16,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      window.onerror = function(msg, url, line) {
-        document.getElementById('root').innerHTML = 
-          '<div style="color:red;font-family:monospace;padding:20px;">' +
-          '<h2>ERROR DETECTED</h2>' +
-          '<p><b>Message:</b> ' + msg + '</p>' +
-          '<p><b>File:</b> ' + url + '</p>' +
-          '<p><b>Line:</b> ' + line + '</p>' +
-          '</div>';
-      };
-    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
