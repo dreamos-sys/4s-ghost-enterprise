@@ -25,7 +25,7 @@ export default function Network({ onBack }) {
           setLoading(false);
           return;
         }
-      } catch (err) { console.log('Worker API error, fallback to Supabase...'); }
+      } catch (err) { console.error('Worker API error:', err); setData({ error: 'WORKER_ERROR', message: err.message || 'Unknown error', workerUrl: workerUrl }); setSource('Worker Error'); setLoading(false); return; }
     }
     
     try {
