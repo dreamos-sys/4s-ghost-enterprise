@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_CLOUDFLARE_WORKER_URL || 'http://localhost:3001';
+const API_BASE = 'https://4s-ghost-api.afumum234.workers.dev';
 
 export async function fetchStatus() {
   const res = await fetch(`${API_BASE}/api/status`);
