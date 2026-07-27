@@ -48,18 +48,10 @@ export default function Dashboard() {
     return () => { clearInterval(timer); clearInterval(healthTimer); };
   }, []);
 
-  const handleToolClick = (tool) => {
-    // ALERT INI AKAN MEMASTIKAN KLIK TERDAFTAR
-    if (import.meta.env.DEV) { console.log("🖱️ TOOL CLICKED:", tool.name, "| ROUTE:", tool.route); }
-    if (import.meta.env.DEV) { console.log("🖱️ TOOL CLICKED:", tool.name, "| ROUTE:", tool.route); }
-    console.log('🖱️ TOOL CLICKED:', tool.name, '| ROUTE:', tool.route);
-    if (typeof window.navigateTool === 'function') { 
-      window.navigateTool(tool.route); 
-    } else { 
-      console.warn('⚠️ navigateTool not found! Falling back to href.');
-      window.location.href = tool.route; 
-    }
+  const goToTool = (route) => {
+    window.navigateTool(route);
   };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = '/';
@@ -152,7 +144,7 @@ export default function Dashboard() {
             <div 
               key={tool.id} 
               className={`tool ${tool.critical ? 'critical' : ''}`}
-              onClick={() => handleToolClick(tool)}
+              onClick={() => goToTool(tool.route)}
               style={{borderColor: tool.color + '33'}}
             >
               <div className="tool-icon">{tool.icon}</div>
