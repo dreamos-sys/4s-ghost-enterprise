@@ -6,54 +6,36 @@
     <meta name="theme-color" content="#050505" />
     <title>4S GHOST • Enterprise</title>
     <style>
-      html, body, #root {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        background-color: #050505 !important;
-        color: #00ff9d;
-        font-family: monospace;
-      }
-      .error-box { background: #1a0000; border: 1px solid #ff4444; padding: 20px; margin: 20px; border-radius: 8px; color: #ff4444; }
+      html, body, #root { margin:0; padding:0; min-height:100vh; background-color:#050505!important; color:#00ff9d; font-family:monospace; }
+      .error-box { background:#1a0000; border:1px solid #ff4444; padding:20px; margin:20px; border-radius:8px; color:#ff4444; }
     </style>
   </head>
   <body>
     <div id="root">
       <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;">
         <div style="font-size:1.5rem;margin-bottom:1rem;">⏳ Initializing System...</div>
-        <div style="font-size:0.8rem;color:#666;" id="status-msg">Checking environment...</div>
+        <div id="status-msg" style="font-size:0.8rem;color:#666;">Checking environment...</div>
       </div>
     </div>
     <script>
-      // Cek environment variable
       var errors = [];
-      if (!import.meta.env.VITE_SUPABASE_URL) {
-        errors.push("VITE_SUPABASE_URL tidak diset!");
-      }
-      if (!import.meta.env.VITE_SUPABASE_KEY) {
-        errors.push("VITE_SUPABASE_KEY tidak diset!");
-      }
-      if (!import.meta.env.VITE_CLOUDFLARE_WORKER_URL) {
-        errors.push("VITE_CLOUDFLARE_WORKER_URL tidak diset!");
-      }
-      
+      if (!import.meta.env.VITE_SUPABASE_URL) errors.push("VITE_SUPABASE_URL tidak diset!");
+      if (!import.meta.env.VITE_SUPABASE_KEY) errors.push("VITE_SUPABASE_KEY tidak diset!");
+      if (!import.meta.env.VITE_CLOUDFLARE_WORKER_URL) errors.push("VITE_CLOUDFLARE_WORKER_URL tidak diset!");
+
       if (errors.length > 0) {
         document.getElementById('root').innerHTML = 
-          '<div class="error-box">' +
-          '<h2>❌ ENVIRONMENT ERROR</h2>' +
-          errors.map(function(e) { return '<p>🔴 ' + e + '</p>'; }).join('') +
-          '<p>Pastikan environment variable sudah diatur di Vercel Dashboard.</p>' +
-          '</div>';
+          '<div class="error-box"><h2>❌ ENVIRONMENT ERROR</h2>' +
+          errors.map(function(e){ return '<p>🔴 '+e+'</p>'; }).join('') +
+          '<p>Pastikan environment variable di Vercel sudah diatur.</p></div>';
       } else {
         document.getElementById('status-msg').textContent = 'Environment OK, loading modules...';
       }
-      
-      // Global error handler untuk error setelah ini
+
+      // Global error handler
       window.onerror = function(msg, url, line, col, error) {
-        var root = document.getElementById('root');
-        root.innerHTML = 
-          '<div class="error-box">' +
-          '<h2>❌ RUNTIME ERROR</h2>' +
+        document.getElementById('root').innerHTML = 
+          '<div class="error-box"><h2>❌ RUNTIME ERROR</h2>' +
           '<p><b>Message:</b> ' + msg + '</p>' +
           '<p><b>File:</b> ' + url + '</p>' +
           '<p><b>Line:</b> ' + line + '</p>' +
@@ -61,6 +43,15 @@
           '</div>';
         return true;
       };
+
+      window.addEventListener('unhandledrejection', function(event) {
+        var root = document.getElementById('root');
+        root.innerHTML = 
+          '<div class="error-box"><h2>❌ UNHANDLED PROMISE REJECTION</h2>' +
+          '<p><b>Reason:</b> ' + (event.reason && event.reason.message ? event.reason.message : JSON.stringify(event.reason)) + '</p>' +
+          '<p><b>Stack:</b> ' + (event.reason && event.reason.stack ? event.reason.stack : 'N/A') + '</p>' +
+          '</div>';
+      });
     </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
