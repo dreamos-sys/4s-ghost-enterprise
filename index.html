@@ -9,15 +9,15 @@
       html, body, #root { margin:0; padding:0; min-height:100vh; background-color:#050505!important; color:#00ff9d; font-family:monospace; }
       .error-box { background:#1a0000; border:1px solid #ff4444; padding:20px; margin:20px; border-radius:8px; color:#ff4444; }
     </style>
-  </head>
-  <body>
-    <div id="root">
-      <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;">
-        <div style="font-size:1.5rem;margin-bottom:1rem;">⏳ Initializing System...</div>
-        <div id="status-msg" style="font-size:0.8rem;color:#666;">Checking environment...</div>
-      </div>
-    </div>
     <script>
+      // Fallback: jika App.jsx gagal, tombol tidak crash
+      window.navigateTool = function(route) {
+        console.warn('navigateTool fallback dipakai, App.jsx mungkin belum terpasang.');
+        // Fallback: redirect manual
+        window.location.href = route;
+      };
+
+      // Environment check
       var errors = [];
       if (!import.meta.env.VITE_SUPABASE_URL) errors.push("VITE_SUPABASE_URL tidak diset!");
       if (!import.meta.env.VITE_SUPABASE_KEY) errors.push("VITE_SUPABASE_KEY tidak diset!");
@@ -32,7 +32,6 @@
         document.getElementById('status-msg').textContent = 'Environment OK, loading modules...';
       }
 
-      // Global error handler
       window.onerror = function(msg, url, line, col, error) {
         document.getElementById('root').innerHTML = 
           '<div class="error-box"><h2>❌ RUNTIME ERROR</h2>' +
@@ -45,14 +44,21 @@
       };
 
       window.addEventListener('unhandledrejection', function(event) {
-        var root = document.getElementById('root');
-        root.innerHTML = 
+        document.getElementById('root').innerHTML = 
           '<div class="error-box"><h2>❌ UNHANDLED PROMISE REJECTION</h2>' +
           '<p><b>Reason:</b> ' + (event.reason && event.reason.message ? event.reason.message : JSON.stringify(event.reason)) + '</p>' +
           '<p><b>Stack:</b> ' + (event.reason && event.reason.stack ? event.reason.stack : 'N/A') + '</p>' +
           '</div>';
       });
     </script>
+  </head>
+  <body>
+    <div id="root">
+      <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;">
+        <div style="font-size:1.5rem;margin-bottom:1rem;">⏳ Initializing System...</div>
+        <div id="status-msg" style="font-size:0.8rem;color:#666;">Checking environment...</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

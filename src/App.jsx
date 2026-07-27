@@ -4,7 +4,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import { supabase } from './lib/supabase';
 
-console.log('✅ App.jsx loaded');
+console.log('App.jsx loaded');
 
 // Import semua tool (tetap seperti sebelumnya)
 import IDS from './tools/IDS.jsx';
