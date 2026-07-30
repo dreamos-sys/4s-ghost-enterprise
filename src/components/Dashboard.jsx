@@ -18,7 +18,7 @@ export default function Dashboard() {
     { id: 8, icon: '💉', name: 'XSS Scanner', desc: 'Vulnerability test', color: '#ef4444', route: '/tools/XSSTest' },
     { id: 9, icon: '🔐', name: 'JWT Decoder', desc: 'Token analyzer', color: '#8b5cf6', route: '/tools/JWTTool' },
     { id: 10, icon: '🍯', name: 'Honeypot', desc: 'Trap system', color: '#f59e0b', route: '/tools/Honeypot' },
-    { id: 11, icon: '🕵️', name: 'Whois Lookup', desc: 'Domain info', color: '#0ea5e9', route: '/tools/Whois' },
+    { id: 11, icon: '🕵️', name: 'Test Tool', desc: 'Static test', color: '#0ea5e9', route: '/tools/TestTool' },
     { id: 12, icon: '🔒', name: 'SSL Check', desc: 'Certificate verify', color: '#10b981', route: '/tools/SSLCheck' },
     { id: 13, icon: '📡', name: 'DNS Recon', desc: 'DNS scanner', color: '#0ea5e9', route: '/tools/DNSRecon' },
     { id: 14, icon: '⚡', name: 'Response', desc: 'Auto defense', color: '#f59e0b', route: '/tools/ResponseEngine' },
