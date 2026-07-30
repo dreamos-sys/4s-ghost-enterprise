@@ -5,7 +5,7 @@ export default function BotDetect({ onBack }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const [source, setSource] = useState(');
+  const [source, setSource] = useState('');
 
   useEffect(() => { fetchData(); }, []);
 
