@@ -17,7 +17,7 @@ export default function JWTTool({ onBack }) {
     
     if (workerUrl) {
       try {
-        const response = await fetch(workerUrl + '/api/status');
+        const response = await fetch(workerUrl + '/api/jwt'');
         if (response.ok) {
           const result = await response.json();
           setData(result);

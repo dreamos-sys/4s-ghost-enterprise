@@ -17,7 +17,7 @@ export default function BotDetect({ onBack }) {
     
     if (workerUrl) {
       try {
-        const response = await fetch(workerUrl + '/api/status');
+        const response = await fetch(workerUrl + '/api/botdetect'');
         if (response.ok) {
           const result = await response.json();
           setData(result);

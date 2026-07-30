@@ -17,7 +17,7 @@ export default function Forensic({ onBack }) {
     
     if (workerUrl) {
       try {
-        const response = await fetch(workerUrl + '/api/status');
+        const response = await fetch(workerUrl + '/api/forensic'');
         if (response.ok) {
           const result = await response.json();
           setData(result);
