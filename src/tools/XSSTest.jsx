@@ -17,7 +17,7 @@ export default function XSSTest({ onBack }) {
     
     if (workerUrl) {
       try {
-        const response = await fetch(workerUrl + '/api/xss'');
+        const response = await fetch(workerUrl + '/api/xss');
         if (response.ok) {
           const result = await response.json();
           setData(result);
