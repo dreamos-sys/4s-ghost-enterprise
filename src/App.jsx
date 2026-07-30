@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import { supabase } from './lib/supabase';
-import TestTool from './tools/TestTool.jsx';
+import Whois from './tools/Whois.jsx';
 
 const toolComponents = {
-  '/tools/TestTool': TestTool,
+  '/tools/Whois': Whois,
 };
 
 function App() {
