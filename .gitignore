@@ -5,3 +5,4 @@
 
 # Env files (jangan push)
 .env.local
+node_modules/
