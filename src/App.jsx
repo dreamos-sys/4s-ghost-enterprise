@@ -2,10 +2,39 @@ import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import { supabase } from './lib/supabase';
+
+import IDS from './tools/IDS.jsx';
+import Defense from './tools/Defense.jsx';
+import RateLimit from './tools/RateLimit.jsx';
+import BotDetect from './tools/BotDetect.jsx';
+import DreamOS from './tools/DreamOS.jsx';
+import Network from './tools/Network.jsx';
+import Forensic from './tools/Forensic.jsx';
+import XSSTest from './tools/XSSTest.jsx';
+import JWTTool from './tools/JWTTool.jsx';
+import Honeypot from './tools/Honeypot.jsx';
 import Whois from './tools/Whois.jsx';
+import SSLCheck from './tools/SSLCheck.jsx';
+import DNSRecon from './tools/DNSRecon.jsx';
+import ResponseEngine from './tools/ResponseEngine.jsx';
+import AICore from './tools/AICore.jsx';
 
 const toolComponents = {
+  '/tools/IDS': IDS,
+  '/tools/Defense': Defense,
+  '/tools/RateLimit': RateLimit,
+  '/tools/BotDetect': BotDetect,
+  '/tools/DreamOS': DreamOS,
+  '/tools/Network': Network,
+  '/tools/Forensic': Forensic,
+  '/tools/XSSTest': XSSTest,
+  '/tools/JWTTool': JWTTool,
+  '/tools/Honeypot': Honeypot,
   '/tools/Whois': Whois,
+  '/tools/SSLCheck': SSLCheck,
+  '/tools/DNSRecon': DNSRecon,
+  '/tools/ResponseEngine': ResponseEngine,
+  '/tools/AICore': AICore,
 };
 
 function App() {
