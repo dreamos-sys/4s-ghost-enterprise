@@ -5,7 +5,7 @@ export default function Defense({ onBack }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const [source, setSource] = useState('');
+  const [source, setSource] = useState(');
 
   useEffect(() => { fetchData(); }, []);
 
@@ -17,7 +17,7 @@ export default function Defense({ onBack }) {
     
     if (workerUrl) {
       try {
-        const response = await fetch(workerUrl + '/api/defense'');
+        const response = await fetch(workerUrl + '/api/defense');
         if (response.ok) {
           const result = await response.json();
           setData(result);

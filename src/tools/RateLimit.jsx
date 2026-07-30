@@ -5,7 +5,7 @@ export default function RateLimit({ onBack }) {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const [source, setSource] = useState('');
+  const [source, setSource] = useState(');
 
   useEffect(() => { fetchData(); }, []);
 
@@ -17,7 +17,7 @@ export default function RateLimit({ onBack }) {
     
     if (workerUrl) {
       try {
-        const response = await fetch(workerUrl + '/api/ratelimit'');
+        const response = await fetch(workerUrl + '/api/ratelimit');
         if (response.ok) {
           const result = await response.json();
           setData(result);
