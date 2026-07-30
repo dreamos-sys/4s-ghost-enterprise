@@ -38,7 +38,7 @@ export default function Forensic({ onBack }) {
       }
     } catch (err) { console.log('Supabase fallback error...'); }
     
-    setData({ status: 'DEMO_MODE', message: 'Tambahkan VITE_CLOUDFLARE_WORKER_URL di .env.local', timestamp: new Date().toISOString(), endpoint: '/api/status' });
+    setData({ status: 'DEMO_MODE', message: 'Tambahkan VITE_CLOUDFLARE_WORKER_URL di .env.local', timestamp: new Date().toISOString(), endpoint: '/api/forensic' });
     setSource('Demo Mode');
     setLoading(false);
   };
