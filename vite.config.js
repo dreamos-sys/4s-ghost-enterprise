@@ -7,6 +7,5 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    // Hapus manualChunks atau gunakan function jika diperlukan (saat ini dihapus untuk kompatibilitas)
   }
 })
